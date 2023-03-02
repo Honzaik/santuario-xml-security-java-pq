@@ -214,7 +214,7 @@ public abstract class SignatureECDSA extends SignatureAlgorithmSpi {
     protected void engineInitSign(
         Key signingKey, AlgorithmParameterSpec algorithmParameterSpec
     ) throws XMLSignatureException {
-        throw new XMLSignatureException("algorithms.CannotUseAlgorithmParameterSpecOnRSA");
+        throw new XMLSignatureException("algorithms.CannotUseAlgorithmParameterSpecOnECDSA");
     }
 
     /**
