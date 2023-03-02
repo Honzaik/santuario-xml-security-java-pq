@@ -209,6 +209,10 @@ public final class XMLSignature extends SignatureElementProxy {
     public static final String ALGO_ID_SIGNATURE_RSA_PSS =
             Constants.XML_DSIG_NS_MORE_07_05 + "rsa-pss";
 
+    /** Post-quantum signatures */
+    public static final String ALGO_ID_SIGNATURE_DILITHIUM = Constants.XML_DSIG_PQC + "dilithium";
+    public static final String ALGO_ID_SIGNATURE_FALCON = Constants.XML_DSIG_PQC + "falcon";
+
     private static final org.slf4j.Logger LOG =
         org.slf4j.LoggerFactory.getLogger(XMLSignature.class);
 

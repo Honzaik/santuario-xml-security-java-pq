@@ -497,6 +497,12 @@ public class SignatureAlgorithm extends Algorithm {
                 XMLSignature.ALGO_ID_SIGNATURE_EDDSA_ED448, SignatureEDDSA.SignatureEd448.class
         );
         algorithmHash.put(
+                XMLSignature.ALGO_ID_SIGNATURE_DILITHIUM, SignatureBaseDilithium.SignatureDilithium.class
+        );
+        algorithmHash.put(
+                XMLSignature.ALGO_ID_SIGNATURE_FALCON, SignatureBaseFalcon.SignatureFalcon.class
+        );
+        algorithmHash.put(
             XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5, IntegrityHmac.IntegrityHmacMD5.class
         );
         algorithmHash.put(

@@ -67,6 +67,10 @@ public final class Constants {
     /** The (newer) URL for more algorithms **/
     public static final String XML_DSIG_NS_MORE_07_05 = "http://www.w3.org/2007/05/xmldsig-more#";
 
+    /** Post-quantum signature namespace */
+    public static final String XML_DSIG_PQC = "http://www.w3.org/2023/02/xmldsig-pqc#";
+
+
     /** The URI for XML spec*/
     public static final String XML_LANG_SPACE_SpecNS = "http://www.w3.org/XML/1998/namespace";
 

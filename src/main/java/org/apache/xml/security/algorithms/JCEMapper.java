@@ -214,6 +214,15 @@ public class JCEMapper {
             XMLSignature.ALGO_ID_SIGNATURE_EDDSA_ED448,
             new Algorithm("Ed448", "Ed448", "Signature")
         );
+        /** Post-quantum signatures */
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_DILITHIUM,
+                new Algorithm("Dilithium", "Dilithium", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_FALCON,
+                new Algorithm("Falcon", "Falcon", "Signature")
+        );
         algorithmsMap.put(
             XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5,
             new Algorithm("", "HmacMD5", "Mac", 0, 0)
