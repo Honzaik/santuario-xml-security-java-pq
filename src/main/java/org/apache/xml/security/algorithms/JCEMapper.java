@@ -309,6 +309,15 @@ public class JCEMapper {
             new Algorithm("RSA", "RSA/ECB/OAEPPadding", "KeyTransport")
         );
         algorithmsMap.put(
+                XMLCipher.KYBER,
+                new Algorithm("KYBER", "KYBER", "KeyTransport")
+        );
+        algorithmsMap.put(
+                XMLCipher.CMCE,
+                new Algorithm("CMCE", "CMCE", "KeyTransport")
+        );
+
+        algorithmsMap.put(
             XMLCipher.DIFFIE_HELLMAN,
             new Algorithm("", "", "KeyAgreement")
         );

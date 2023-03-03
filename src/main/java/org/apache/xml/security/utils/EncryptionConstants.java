@@ -121,6 +121,9 @@ public final class EncryptionConstants {
     public static final String EncryptionSpec11NS =
         "http://www.w3.org/2009/xmlenc11#";
 
+    public static final String EncryptionSpecPQC = "http://www.w3.org/2023/02/xmlenc-pqc#";
+
+
     /** URI for content*/
     public static final String TYPE_CONTENT = EncryptionSpecNS + "Content";
 
@@ -186,6 +189,12 @@ public final class EncryptionConstants {
     /** Key Transport - OPTIONAL RSA-OAEP_11 */
     public static final String ALGO_ID_KEYTRANSPORT_RSAOAEP_11 =
         EncryptionConstants.EncryptionSpec11NS + "rsa-oaep";
+
+    public static final String ALGO_ID_KEM_KYBER =
+            EncryptionConstants.EncryptionSpecPQC + "kyber";
+
+    public static final String ALGO_ID_KEM_CMCE =
+            EncryptionConstants.EncryptionSpecPQC + "cmce";
 
     /** Key Agreement - OPTIONAL Diffie-Hellman */
     public static final String ALGO_ID_KEYAGREEMENT_DH =

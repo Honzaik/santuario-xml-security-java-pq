@@ -143,6 +143,9 @@ public class XMLCipher {
     public static final String RSA_OAEP_11 =
         EncryptionConstants.ALGO_ID_KEYTRANSPORT_RSAOAEP_11;
 
+    public static final String KYBER = EncryptionConstants.ALGO_ID_KEM_KYBER;
+    public static final String CMCE = EncryptionConstants.ALGO_ID_KEM_CMCE;
+
     /** DIFFIE_HELLMAN Cipher */
     public static final String DIFFIE_HELLMAN =
         EncryptionConstants.ALGO_ID_KEYAGREEMENT_DH;
@@ -237,7 +240,7 @@ public class XMLCipher {
 
     private static final String ENC_ALGORITHMS = TRIPLEDES + "\n" +
         AES_128 + "\n" + AES_256 + "\n" + AES_192 + "\n" + RSA_v1dot5 + "\n" +
-        RSA_OAEP + "\n" + RSA_OAEP_11 + "\n" + TRIPLEDES_KeyWrap + "\n" +
+        RSA_OAEP + "\n" + RSA_OAEP_11 + "\n" + KYBER + "\n"+ CMCE + "\n" + TRIPLEDES_KeyWrap + "\n" +
         AES_128_KeyWrap + "\n" + AES_256_KeyWrap + "\n" + AES_192_KeyWrap + "\n" +
         AES_128_GCM + "\n" + AES_192_GCM + "\n" + AES_256_GCM + "\n" + SEED_128 + "\n" +
         CAMELLIA_128 + "\n" + CAMELLIA_192 + "\n" + CAMELLIA_256 + "\n" +
@@ -307,6 +310,8 @@ public class XMLCipher {
         encryptionAlgorithms.add(RSA_v1dot5);
         encryptionAlgorithms.add(RSA_OAEP);
         encryptionAlgorithms.add(RSA_OAEP_11);
+        encryptionAlgorithms.add(KYBER);
+        encryptionAlgorithms.add(CMCE);
         encryptionAlgorithms.add(TRIPLEDES_KeyWrap);
         encryptionAlgorithms.add(AES_128_KeyWrap);
         encryptionAlgorithms.add(AES_256_KeyWrap);
