@@ -88,6 +88,9 @@ public class Transforms extends SignatureElementProxy {
     public static final String TRANSFORM_ENVELOPED_SIGNATURE
         = Constants.SignatureSpecNS + "enveloped-signature";
 
+    public static final String TRANSFORM_ENVELOPED_SIGNATURE_EXTRA
+            = Constants.XML_DSIG_PQC + "enveloped-signature-extra";
+
     /** Transform - XPointer */
     public static final String TRANSFORM_XPOINTER
         = "http://www.w3.org/TR/2001/WD-xptr-20010108";

@@ -29,17 +29,7 @@ import org.apache.xml.security.c14n.InvalidCanonicalizerException;
 import org.apache.xml.security.exceptions.AlgorithmAlreadyRegisteredException;
 import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.apache.xml.security.signature.XMLSignatureInput;
-import org.apache.xml.security.transforms.implementations.TransformBase64Decode;
-import org.apache.xml.security.transforms.implementations.TransformC14N;
-import org.apache.xml.security.transforms.implementations.TransformC14N11;
-import org.apache.xml.security.transforms.implementations.TransformC14N11_WithComments;
-import org.apache.xml.security.transforms.implementations.TransformC14NExclusive;
-import org.apache.xml.security.transforms.implementations.TransformC14NExclusiveWithComments;
-import org.apache.xml.security.transforms.implementations.TransformC14NWithComments;
-import org.apache.xml.security.transforms.implementations.TransformEnvelopedSignature;
-import org.apache.xml.security.transforms.implementations.TransformXPath;
-import org.apache.xml.security.transforms.implementations.TransformXPath2Filter;
-import org.apache.xml.security.transforms.implementations.TransformXSLT;
+import org.apache.xml.security.transforms.implementations.*;
 import org.apache.xml.security.utils.ClassLoaderUtils;
 import org.apache.xml.security.utils.Constants;
 import org.apache.xml.security.utils.HelperNodeList;
@@ -265,6 +255,9 @@ public final class Transform extends SignatureElementProxy {
         );
         transformSpiHash.put(
             Transforms.TRANSFORM_ENVELOPED_SIGNATURE, new TransformEnvelopedSignature()
+        );
+        transformSpiHash.put(
+                Transforms.TRANSFORM_ENVELOPED_SIGNATURE_EXTRA, new TransformEnvelopedSignatureExtra()
         );
         transformSpiHash.put(
             Transforms.TRANSFORM_XSLT, new TransformXSLT()

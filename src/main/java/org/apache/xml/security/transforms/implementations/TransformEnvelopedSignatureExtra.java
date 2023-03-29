@@ -18,9 +18,6 @@
  */
 package org.apache.xml.security.transforms.implementations;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
 import org.apache.xml.security.parser.XMLParserException;
 import org.apache.xml.security.signature.NodeFilter;
 import org.apache.xml.security.signature.XMLSignatureInput;
@@ -33,19 +30,24 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 /**
- * Implements the <CODE>http://www.w3.org/2000/09/xmldsig#enveloped-signature</CODE>
+ * Implements the <CODE>http://www.w3.org/2000/09/xmldsig#enveloped-signature-extra</CODE>
  * transform.
  *
  */
-public class TransformEnvelopedSignature extends TransformSpi {
+public class TransformEnvelopedSignatureExtra extends TransformSpi {
+
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(TransformEnvelopedSignatureExtra.class);
 
     /**
      * {@inheritDoc}
      */
     @Override
     protected String engineGetURI() {
-        return Transforms.TRANSFORM_ENVELOPED_SIGNATURE;
+        return Transforms.TRANSFORM_ENVELOPED_SIGNATURE_EXTRA;
     }
 
     /**
@@ -68,8 +70,12 @@ public class TransformEnvelopedSignature extends TransformSpi {
          * (including comments) in the node-set representing the octet stream.
          */
 
-        Node signatureElement = searchSignatureElement(transformElement);
-
+        Node signatureElement = searchRegularSignatureElement(transformElement);
+        if (signatureElement == null) { //Not found, don't do anything.
+            LOG.info("NULL SIG");
+            return input;
+        }
+        LOG.info(signatureElement.getLocalName());
         input.addExcludedNode(signatureElement);
         try {
             input.addNodeFilter(new EnvelopedNodeFilter(signatureElement));
@@ -84,18 +90,20 @@ public class TransformEnvelopedSignature extends TransformSpi {
      * @return the node that is the signature
      * @throws TransformationException
      */
-    private static Node searchSignatureElement(Node signatureElement)
+    private static Node searchRegularSignatureElement(Node signatureElement)
         throws TransformationException {
         boolean found = false;
 
+        Node originalNode = signatureElement;
+
+        //find Response element
         while (true) {
-            if (signatureElement == null
-                || signatureElement.getNodeType() == Node.DOCUMENT_NODE) {
+            if (signatureElement == null || signatureElement.getNodeType() == Node.DOCUMENT_NODE) {
                 break;
             }
             Element el = (Element) signatureElement;
-            if (el.getNamespaceURI().equals(Constants.SignatureSpecNS)
-                && el.getLocalName().equals(Constants._TAG_SIGNATURE)) {
+            if (el.getNamespaceURI().equals("urn:oasis:names:tc:SAML:2.0:protocol")
+                && el.getLocalName().equals("Response")) {
                 found = true;
                 break;
             }
@@ -105,8 +113,30 @@ public class TransformEnvelopedSignature extends TransformSpi {
 
         if (!found) {
             throw new TransformationException(
-                "transform.envelopedSignatureTransformNotInSignatureElement");
+                "transform.envelopedExtraSignatureTransformNoResponse");
         }
+
+        found = false;
+
+        NodeList children = signatureElement.getChildNodes();
+        LOG.debug("children " + children.getLength());
+
+        for (int i = 0; i < children.getLength(); i++) {
+
+            Element el = (Element) children.item(i);
+            LOG.debug("child " + el.getLocalName());
+
+            if (el.getNamespaceURI().equals(Constants.SignatureSpecNS) && el.getLocalName().equals(Constants._TAG_SIGNATURE)){
+                signatureElement = el;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) { //Not found, return null
+            return null;
+        }
+
         return signatureElement;
     }
 
@@ -126,7 +156,7 @@ public class TransformEnvelopedSignature extends TransformSpi {
         }
 
         /**
-         * @see org.apache.xml.security.signature.NodeFilter#isNodeInclude(org.w3c.dom.Node)
+         * @see NodeFilter#isNodeInclude(Node)
          */
         public int isNodeInclude(Node n) {
             if (n == exclude || XMLUtils.isDescendantOrSelf(exclude, n)) {

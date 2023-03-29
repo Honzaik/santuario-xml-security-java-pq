@@ -23,10 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.xml.security.c14n.CanonicalizationException;
 import org.apache.xml.security.c14n.implementations.Canonicalizer11_OmitComments;
@@ -37,6 +34,7 @@ import org.apache.xml.security.utils.JavaUtils;
 import org.apache.xml.security.utils.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Class XMLSignatureInput
@@ -69,7 +67,7 @@ public class XMLSignatureInput {
     /**
      * Exclude Node *for enveloped transformations*
      */
-    private Node excludeNode;
+    private Set<Node> excludedNodes = new HashSet<Node>();
     /**
      *
      */
@@ -216,7 +214,7 @@ public class XMLSignatureInput {
                 XMLUtils.circumventBug2650(XMLUtils.getOwnerDocument(subNode));
             }
             inputNodeSet = new LinkedHashSet<>();
-            XMLUtils.getSet(subNode, inputNodeSet, excludeNode, excludeComments);
+            XMLUtils.getSet(subNode, inputNodeSet, excludedNodes, excludeComments);
             return inputNodeSet;
         } else if (isOctetStream()) {
             convertToNodes();
@@ -394,7 +392,7 @@ public class XMLSignatureInput {
         }
         if (isElement()) {
             return "XMLSignatureInput/Element/" + subNode
-                + " exclude "+ excludeNode + " comments:"
+                + " exclude "+ excludedNodes.size() + " nodes comments:"
                 + excludeComments +"/" + getSourceURI();
         }
         try {
@@ -436,16 +434,16 @@ public class XMLSignatureInput {
      * Gets the exclude node of this XMLSignatureInput
      * @return Returns the excludeNode.
      */
-    public Node getExcludeNode() {
-        return excludeNode;
+    public Set<Node> getExcludedNodes() {
+        return excludedNodes;
     }
 
     /**
      * Sets the exclude node of this XMLSignatureInput
-     * @param excludeNode The excludeNode to set.
+     * @param excludedNode The excludeNode to set.
      */
-    public void setExcludeNode(Node excludeNode) {
-        this.excludeNode = excludeNode;
+    public void addExcludedNode(Node excludedNode) {
+        this.excludedNodes.add(excludedNode);
     }
 
     /**

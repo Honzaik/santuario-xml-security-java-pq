@@ -21,12 +21,7 @@ package org.apache.xml.security.c14n.implementations;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.xml.security.c14n.CanonicalizationException;
 import org.apache.xml.security.c14n.CanonicalizerSpi;
@@ -34,16 +29,10 @@ import org.apache.xml.security.c14n.helper.AttrCompare;
 import org.apache.xml.security.parser.XMLParserException;
 import org.apache.xml.security.signature.NodeFilter;
 import org.apache.xml.security.signature.XMLSignatureInput;
+import org.apache.xml.security.transforms.implementations.TransformEnvelopedSignatureExtra;
 import org.apache.xml.security.utils.Constants;
 import org.apache.xml.security.utils.XMLUtils;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Comment;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.ProcessingInstruction;
+import org.w3c.dom.*;
 
 /**
  * Abstract base class for canonicalization algorithms.
@@ -51,6 +40,10 @@ import org.w3c.dom.ProcessingInstruction;
  * https://issues.apache.org/jira/browse/SANTUARIO-463
  */
 public abstract class CanonicalizerBase extends CanonicalizerSpi {
+
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(TransformEnvelopedSignatureExtra.class);
+
+
     public static final String XML = "xml";
     public static final String XMLNS = "xmlns";
     public static final String XMLNS_URI = Constants.NamespaceSpecNS;
@@ -105,7 +98,7 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
      */
     public void engineCanonicalizeSubTree(Node rootNode, OutputStream writer)
         throws CanonicalizationException {
-        engineCanonicalizeSubTree(rootNode, (Node)null, writer);
+        engineCanonicalizeSubTree(rootNode, new HashSet<Node>(), writer);
     }
 
     /**
@@ -137,7 +130,7 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
             if (input.isOctetStream()) {
                 engineCanonicalize(input.getBytes(), writer, secureValidation);
             } else if (input.isElement()) {
-                engineCanonicalizeSubTree(input.getSubNode(), input.getExcludeNode(), writer);
+                engineCanonicalizeSubTree(input.getSubNode(), input.getExcludedNodes(), writer);
             } else if (input.isNodeSet()) {
                 nodeFilter = input.getNodeFilters();
 
@@ -159,12 +152,12 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
      *
      * @param rootNode
      *            the root of the subtree to canonicalize
-     * @param excludeNode
+     * @param excludedNodes
      *            a node to be excluded from the canonicalize operation
      * @param writer OutputStream to write the canonicalization result
      * @throws CanonicalizationException
      */
-    protected void engineCanonicalizeSubTree(Node rootNode, Node excludeNode, OutputStream writer)
+    protected void engineCanonicalizeSubTree(Node rootNode, Set<Node> excludedNodes, OutputStream writer)
         throws CanonicalizationException {
         try {
             NameSpaceSymbTable ns = new NameSpaceSymbTable();
@@ -174,7 +167,7 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
                 getParentNameSpaces((Element)rootNode, ns);
                 nodeLevel = NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
             }
-            this.canonicalizeSubTree(rootNode, ns, rootNode, nodeLevel, excludeNode, writer);
+            this.canonicalizeSubTree(rootNode, ns, rootNode, nodeLevel, excludedNodes, writer);
             writer.flush();
         } catch (UnsupportedEncodingException ex) {
             throw new CanonicalizationException(ex);
@@ -191,14 +184,14 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
      * @param ns
      * @param endnode
      * @param documentLevel
-     * @param excludeNode
+     * @param excludedNodes
      * @param writer OutputStream to write the canonicalization result
      * @throws CanonicalizationException
      * @throws IOException
      */
     private void canonicalizeSubTree(
         Node currentNode, NameSpaceSymbTable ns, Node endnode, int documentLevel,
-        Node excludeNode, OutputStream writer
+        Set<Node> excludedNodes, OutputStream writer
     ) throws CanonicalizationException, IOException {
         if (currentNode == null || isVisibleInt(currentNode) == -1) {
             return;
@@ -239,9 +232,17 @@ public abstract class CanonicalizerBase extends CanonicalizerSpi {
 
             case Node.ELEMENT_NODE :
                 documentLevel = NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
-                if (currentNode == excludeNode) {
+                boolean found = false;
+                for (Node excludedNode : excludedNodes) {
+                    if (currentNode == excludedNode) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
                     break;
                 }
+
                 Element currentElement = (Element)currentNode;
                 //Add a level to the nssymbtable. So latter can be pop-back.
                 ns.outputNodePush();

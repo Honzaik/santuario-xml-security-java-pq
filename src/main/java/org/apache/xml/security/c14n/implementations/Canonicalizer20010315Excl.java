@@ -20,11 +20,7 @@ package org.apache.xml.security.c14n.implementations;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.apache.xml.security.c14n.CanonicalizationException;
 import org.apache.xml.security.c14n.helper.C14nHelper;
@@ -32,12 +28,7 @@ import org.apache.xml.security.parser.XMLParserException;
 import org.apache.xml.security.signature.XMLSignatureInput;
 import org.apache.xml.security.transforms.params.InclusiveNamespaces;
 import org.apache.xml.security.utils.XMLUtils;
-import org.w3c.dom.Attr;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
+import org.w3c.dom.*;
 
 /**
  * Implements &quot; <A
@@ -80,7 +71,7 @@ public abstract class Canonicalizer20010315Excl extends CanonicalizerBase {
      */
     public void engineCanonicalizeSubTree(Node rootNode, OutputStream writer)
         throws CanonicalizationException {
-        engineCanonicalizeSubTree(rootNode, "", null, writer);
+        engineCanonicalizeSubTree(rootNode, "", new HashSet<Node>(), writer);
     }
 
     /**
@@ -122,7 +113,7 @@ public abstract class Canonicalizer20010315Excl extends CanonicalizerBase {
      * @throws CanonicalizationException
      */
     public void engineCanonicalizeSubTree(
-        Node rootNode, String inclusiveNamespaces, Node excl, OutputStream writer
+            Node rootNode, String inclusiveNamespaces, Set<Node> excl, OutputStream writer
     ) throws CanonicalizationException{
         inclusiveNSSet = InclusiveNamespaces.prefixStr2Set(inclusiveNamespaces);
         super.engineCanonicalizeSubTree(rootNode, excl, writer);
