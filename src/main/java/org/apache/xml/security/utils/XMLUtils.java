@@ -144,27 +144,19 @@ public final class XMLUtils {
      * @param exclude
      * @param com whether comments or not
      */
-    public static void getSet(Node rootNode, Set<Node> result, Set<Node> exclude, boolean com) {
-        for (Node excludedNode : exclude) {
-            if (excludedNode != null && isDescendantOrSelf(excludedNode, rootNode)) {
-                return;
-            }
+    public static void getSet(Node rootNode, Set<Node> result, Node exclude, boolean com) {
+        if (exclude != null && isDescendantOrSelf(exclude, rootNode)) {
+            return;
         }
-
         getSetRec(rootNode, result, exclude, com);
     }
 
     @SuppressWarnings("fallthrough")
     private static void getSetRec(final Node rootNode, final Set<Node> result,
-                                final Set<Node> exclude, final boolean com) {
-
-        for (Node excludedNode : exclude) {
-            if (rootNode == excludedNode) {
-                return;
-            }
+                                final Node exclude, final boolean com) {
+        if (rootNode == exclude) {
+            return;
         }
-
-
         switch (rootNode.getNodeType()) { //NOPMD
         case Node.ELEMENT_NODE:
             result.add(rootNode);

@@ -31,7 +31,6 @@ import org.apache.xml.security.utils.Constants;
 import org.apache.xml.security.utils.XMLUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Implements the <CODE>http://www.w3.org/2000/09/xmldsig#enveloped-signature</CODE>
@@ -69,8 +68,7 @@ public class TransformEnvelopedSignature extends TransformSpi {
          */
 
         Node signatureElement = searchSignatureElement(transformElement);
-
-        input.addExcludedNode(signatureElement);
+        input.setExcludeNode(signatureElement);
         try {
             input.addNodeFilter(new EnvelopedNodeFilter(signatureElement));
         } catch (XMLParserException | IOException ex) {

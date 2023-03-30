@@ -12,7 +12,3 @@
 .pmd
 .pmdruleset.xml
 /.settings/
-
-.DS_Store
-*.releaseBackup
-*.properties
