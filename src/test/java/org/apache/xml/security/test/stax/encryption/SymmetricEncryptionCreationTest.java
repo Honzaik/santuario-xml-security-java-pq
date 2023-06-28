@@ -45,6 +45,7 @@ import org.apache.xml.security.stax.ext.XMLSecurityProperties;
 import org.apache.xml.security.test.stax.utils.XMLSecEventAllocator;
 import org.apache.xml.security.test.stax.utils.XmlReaderToWriter;
 import org.apache.xml.security.utils.XMLUtils;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -60,7 +61,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SymmetricEncryptionCreationTest {
 
     private static boolean bcInstalled;
-    private XMLInputFactory xmlInputFactory;
+    private final XMLInputFactory xmlInputFactory;
 
     @BeforeAll
     public static void setup() throws Exception {
@@ -91,7 +92,7 @@ public class SymmetricEncryptionCreationTest {
         xmlInputFactory.setEventAllocator(new XMLSecEventAllocator());
     }
 
-    @org.junit.jupiter.api.AfterAll
+    @AfterAll
     public static void cleanup() throws Exception {
         Security.removeProvider("BC");
     }
@@ -129,7 +130,7 @@ public class SymmetricEncryptionCreationTest {
         XmlReaderToWriter.writeAll(xmlStreamReader, xmlStreamWriter);
         xmlStreamWriter.close();
 
-        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8.name()));
+        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8));
 
         Document document = null;
         try (InputStream is = new ByteArrayInputStream(baos.toByteArray())) {
@@ -190,7 +191,7 @@ public class SymmetricEncryptionCreationTest {
         XmlReaderToWriter.writeAll(xmlStreamReader, xmlStreamWriter);
         xmlStreamWriter.close();
 
-        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8.name()));
+        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8));
 
         Document document = null;
         try (InputStream is = new ByteArrayInputStream(baos.toByteArray())) {
@@ -251,7 +252,7 @@ public class SymmetricEncryptionCreationTest {
         XmlReaderToWriter.writeAll(xmlStreamReader, xmlStreamWriter);
         xmlStreamWriter.close();
 
-        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8.name()));
+        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8));
 
         Document document = null;
         try (InputStream is = new ByteArrayInputStream(baos.toByteArray())) {
@@ -312,7 +313,7 @@ public class SymmetricEncryptionCreationTest {
         XmlReaderToWriter.writeAll(xmlStreamReader, xmlStreamWriter);
         xmlStreamWriter.close();
 
-        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8.name()));
+        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8));
 
         Document document = null;
         try (InputStream is = new ByteArrayInputStream(baos.toByteArray())) {
@@ -373,7 +374,7 @@ public class SymmetricEncryptionCreationTest {
         XmlReaderToWriter.writeAll(xmlStreamReader, xmlStreamWriter);
         xmlStreamWriter.close();
 
-        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8.name()));
+        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8));
 
         Document document = null;
         try (InputStream is = new ByteArrayInputStream(baos.toByteArray())) {
@@ -434,7 +435,7 @@ public class SymmetricEncryptionCreationTest {
         XmlReaderToWriter.writeAll(xmlStreamReader, xmlStreamWriter);
         xmlStreamWriter.close();
 
-        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8.name()));
+        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8));
 
         Document document = null;
         try (InputStream is = new ByteArrayInputStream(baos.toByteArray())) {
@@ -494,7 +495,7 @@ public class SymmetricEncryptionCreationTest {
         XmlReaderToWriter.writeAll(xmlStreamReader, xmlStreamWriter);
         xmlStreamWriter.close();
 
-        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8.name()));
+        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8));
 
         Document document = null;
         try (InputStream is = new ByteArrayInputStream(baos.toByteArray())) {
@@ -557,7 +558,7 @@ public class SymmetricEncryptionCreationTest {
         XmlReaderToWriter.writeAll(xmlStreamReader, xmlStreamWriter);
         xmlStreamWriter.close();
 
-        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8.name()));
+        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8));
 
         Document document = null;
         try (InputStream is = new ByteArrayInputStream(baos.toByteArray())) {
@@ -619,7 +620,7 @@ public class SymmetricEncryptionCreationTest {
         XmlReaderToWriter.writeAll(xmlStreamReader, xmlStreamWriter);
         xmlStreamWriter.close();
 
-        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8.name()));
+        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8));
 
         Document document = null;
         try (InputStream is = new ByteArrayInputStream(baos.toByteArray())) {
@@ -681,7 +682,7 @@ public class SymmetricEncryptionCreationTest {
         XmlReaderToWriter.writeAll(xmlStreamReader, xmlStreamWriter);
         xmlStreamWriter.close();
 
-        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8.name()));
+        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8));
 
         Document document = null;
         try (InputStream is = new ByteArrayInputStream(baos.toByteArray())) {
@@ -743,7 +744,7 @@ public class SymmetricEncryptionCreationTest {
         XmlReaderToWriter.writeAll(xmlStreamReader, xmlStreamWriter);
         xmlStreamWriter.close();
 
-        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8.name()));
+        // System.out.println("Got:\n" + new String(baos.toByteArray(), StandardCharsets.UTF_8));
 
         Document document = null;
         try (InputStream is = new ByteArrayInputStream(baos.toByteArray())) {

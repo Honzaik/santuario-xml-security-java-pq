@@ -18,7 +18,6 @@
  */
 package org.apache.xml.security.test.stax.signature;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.security.Key;
 import java.security.Provider;
@@ -40,7 +39,7 @@ import org.apache.xml.security.test.stax.utils.XMLSecEventAllocator;
 import org.apache.xml.security.utils.resolver.ResourceResolverContext;
 import org.apache.xml.security.utils.resolver.ResourceResolverException;
 import org.apache.xml.security.utils.resolver.ResourceResolverSpi;
-
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.w3c.dom.Document;
@@ -55,18 +54,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class AbstractSignatureCreationTest {
 
-    protected static String BASEDIR;
     protected static boolean bcInstalled;
 
     protected XMLInputFactory xmlInputFactory;
 
     @BeforeAll
     public static void setup() throws Exception {
-        String baseDir = System.getProperty("basedir");
-        if (baseDir == null) {
-            baseDir = new File(".").getCanonicalPath();
-        }
-        BASEDIR = baseDir;
 
         org.apache.xml.security.Init.init();
 
@@ -90,7 +83,7 @@ public class AbstractSignatureCreationTest {
         }
     }
 
-    @org.junit.jupiter.api.AfterAll
+    @AfterAll
     public static void cleanup() throws Exception {
         Security.removeProvider("BC");
     }

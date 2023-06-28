@@ -18,6 +18,14 @@
  */
 package org.apache.xml.security.test.dom.xalan;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+
+import javax.xml.transform.ErrorListener;
+import javax.xml.transform.SourceLocator;
+import javax.xml.transform.TransformerException;
+
 import org.apache.xml.security.utils.XPathAPI;
 import org.apache.xml.utils.PrefixResolver;
 import org.apache.xml.utils.PrefixResolverDefault;
@@ -29,13 +37,6 @@ import org.apache.xpath.objects.XObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import javax.xml.transform.ErrorListener;
-import javax.xml.transform.SourceLocator;
-import javax.xml.transform.TransformerException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
 /**
  * An implementation of XPathAPI using Xalan. This supports the "here()" function defined in the digital
@@ -73,6 +74,7 @@ class XalanXPathAPI implements XPathAPI {
      *
      * @throws TransformerException
      */
+    @Override
     public NodeList selectNodeList(
         Node contextNode, Node xpathnode, String str, Node namespaceNode
     ) throws TransformerException {
@@ -91,6 +93,7 @@ class XalanXPathAPI implements XPathAPI {
      *  @param str The XPath expression
      *  @param namespaceNode The node from which prefixes in the XPath will be resolved to namespaces.
      */
+    @Override
     public boolean evaluate(Node contextNode, Node xpathnode, String str, Node namespaceNode)
         throws TransformerException {
         XObject object = eval(contextNode, xpathnode, str, namespaceNode);
@@ -100,6 +103,7 @@ class XalanXPathAPI implements XPathAPI {
     /**
      * Clear any context information from this object
      */
+    @Override
     public void clear() {
         xpathStr = null;
         xpath = null;
@@ -150,7 +154,7 @@ class XalanXPathAPI implements XPathAPI {
             Constructor<?> constructor = XPath.class.getConstructor(classes);
             xpath = (XPath) constructor.newInstance(objects);
         } catch (Exception ex) {
-            LOG.debug(ex.getMessage(), ex);
+            throw new IllegalStateException("Could not construct xpath for " + str, ex);
         }
         if (xpath == null) {
             xpath = new XPath(str, null, prefixResolver, XPath.SELECT, null);

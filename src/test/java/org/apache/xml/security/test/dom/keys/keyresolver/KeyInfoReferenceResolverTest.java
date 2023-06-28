@@ -18,7 +18,10 @@
  */
 package org.apache.xml.security.test.dom.keys.keyresolver;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.cert.CertificateFactory;
@@ -27,9 +30,11 @@ import java.security.spec.X509EncodedKeySpec;
 
 import org.apache.xml.security.Init;
 import org.apache.xml.security.keys.KeyInfo;
+import org.apache.xml.security.test.XmlSecTestEnvironment;
 import org.apache.xml.security.utils.Constants;
 import org.apache.xml.security.utils.JavaUtils;
 import org.apache.xml.security.utils.XMLUtils;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -41,16 +46,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class KeyInfoReferenceResolverTest {
 
-    private static final String BASEDIR = System.getProperty("basedir") == null ? "./": System.getProperty("basedir");
-    private static final String SEP = System.getProperty("file.separator");
-
     public KeyInfoReferenceResolverTest() throws Exception {
         if (!Init.isInitialized()) {
             Init.init();
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testRSAPublicKey() throws Exception {
         PublicKey rsaKeyControl = loadPublicKey("rsa-KeyInfoReference.key", "RSA");
 
@@ -64,7 +66,7 @@ public class KeyInfoReferenceResolverTest {
         assertEquals(rsaKeyControl, keyInfo.getPublicKey());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testX509Certificate() throws Exception {
         X509Certificate certControl = loadCertificate("cert-KeyInfoReference.crt");
 
@@ -79,7 +81,7 @@ public class KeyInfoReferenceResolverTest {
         assertEquals(certControl.getPublicKey(), keyInfo.getPublicKey());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testWrongReferentType() throws Exception {
         Document doc = loadXML("KeyInfoReference-WrongReferentType.xml");
         markKeyInfoIdAttrs(doc);
@@ -98,7 +100,7 @@ public class KeyInfoReferenceResolverTest {
         assertNull(keyInfo.getPublicKey());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSameDocumentReferenceChain() throws Exception {
         Document doc = loadXML("KeyInfoReference-ReferenceChain.xml");
         markKeyInfoIdAttrs(doc);
@@ -111,7 +113,7 @@ public class KeyInfoReferenceResolverTest {
         assertNull(keyInfo.getPublicKey());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSameDocumentReferenceChainWithSecureValidation() throws Exception {
         Document doc = loadXML("KeyInfoReference-ReferenceChain.xml");
         markKeyInfoIdAttrs(doc);
@@ -125,7 +127,7 @@ public class KeyInfoReferenceResolverTest {
         assertNull(keyInfo.getPublicKey());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testKeyInfoReferenceToRetrievalMethodNotAllowed() throws Exception {
         Document doc = loadXML("KeyInfoReference-RSA-RetrievalMethod.xml");
         markKeyInfoIdAttrs(doc);
@@ -140,11 +142,9 @@ public class KeyInfoReferenceResolverTest {
 
     // Utility methods
 
-    private String getControlFilePath(String fileName) {
-        return BASEDIR + SEP + "src" + SEP + "test" + SEP + "resources" +
-            SEP + "org" + SEP + "apache" + SEP + "xml" + SEP + "security" +
-            SEP + "keyresolver" +
-            SEP + fileName;
+    private File getControlFilePath(String fileName) {
+        return XmlSecTestEnvironment.resolveFile("src", "test", "resources", "org", "apache", "xml", "security",
+            "keyresolver", fileName);
     }
 
     private Document loadXML(String fileName) throws Exception {
@@ -152,7 +152,7 @@ public class KeyInfoReferenceResolverTest {
     }
 
     private PublicKey loadPublicKey(String filePath, String algorithm) throws Exception {
-        String fileData = new String(JavaUtils.getBytesFromFile(getControlFilePath(filePath)));
+        String fileData = new String(JavaUtils.getBytesFromFile(getControlFilePath(filePath).getAbsolutePath()));
         byte[] keyBytes = XMLUtils.decode(fileData);
         KeyFactory kf = KeyFactory.getInstance(algorithm);
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
@@ -160,9 +160,10 @@ public class KeyInfoReferenceResolverTest {
     }
 
     private X509Certificate loadCertificate(String fileName) throws Exception {
-        FileInputStream fis = new FileInputStream(getControlFilePath(fileName));
-        CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
-        return (X509Certificate) certFactory.generateCertificate(fis);
+        try (InputStream fis = Files.newInputStream(getControlFilePath(fileName).toPath())) {
+            CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+            return (X509Certificate) certFactory.generateCertificate(fis);
+        }
     }
 
     private void markKeyInfoIdAttrs(Document doc) {

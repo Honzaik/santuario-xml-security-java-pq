@@ -18,10 +18,6 @@
  */
 package org.apache.xml.security.test.dom.signature;
 
-import java.io.InputStream;
-
-
-import java.io.FileInputStream;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.Provider;
@@ -31,11 +27,13 @@ import java.util.Enumeration;
 import org.apache.xml.security.Init;
 import org.apache.xml.security.signature.XMLSignature;
 import org.apache.xml.security.signature.XMLSignatureException;
+import org.apache.xml.security.test.XmlSecTestEnvironment;
 import org.apache.xml.security.test.dom.TestUtils;
 import org.apache.xml.security.transforms.Transforms;
 import org.apache.xml.security.utils.Constants;
 import org.apache.xml.security.utils.ElementProxy;
 import org.apache.xml.security.utils.resolver.implementations.ResolverXPointer;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -44,24 +42,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SignatureTest {
     public static final String DS_NS = "http://www.w3.org/2000/09/xmldsig#";
-
-    private static final String BASEDIR =
-        System.getProperty("basedir") == null ? "./": System.getProperty("basedir");
-    public static final String KEYSTORE_DIRECTORY = BASEDIR + "/src/test/resources/";
-    public static final String KEYSTORE_PASSWORD_STRING = "changeit";
-    public static final char[] KEYSTORE_PASSWORD = KEYSTORE_PASSWORD_STRING.toCharArray();
+    private final KeyStore keyStore;
 
     public SignatureTest() throws Exception {
         Init.init();
         ElementProxy.setDefaultPrefix(Constants.SignatureSpecNS, "ds");
+        keyStore = XmlSecTestEnvironment.getTestKeyStore();
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSigning() throws Throwable {
         signDocument(getOriginalDocument());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSigningVerifyingFromRebuildSignature() throws Throwable {
         Document doc = getOriginalDocument();
         signDocument(doc);
@@ -73,7 +67,7 @@ public class SignatureTest {
         assertTrue(signature.checkSignatureValue(pubKey));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSigningVerifyingFromRebuildSignatureWithProvider() throws Throwable {
         Provider provider = new org.bouncycastle.jce.provider.BouncyCastleProvider();
         Document doc = getOriginalDocument();
@@ -88,7 +82,7 @@ public class SignatureTest {
         assertTrue(signature.checkSignatureValue(pubKey));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSigningVerifyingFromExistingSignature() throws Throwable {
         Document doc = getOriginalDocument();
         XMLSignature signature = signDocument(doc);
@@ -97,7 +91,7 @@ public class SignatureTest {
         assertTrue(signature.checkSignatureValue(pubKey));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSigningVerifyingFromExistingSignatureWithProvider() throws Throwable {
         Provider provider = new org.bouncycastle.jce.provider.BouncyCastleProvider();
         Document doc = getOriginalDocument();
@@ -108,7 +102,7 @@ public class SignatureTest {
         assertTrue(signature.checkSignatureValue(pubKey));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSigningVerifyingFromExistingSignatureSameThread()
         throws Throwable {
         Document doc = getOriginalDocument();
@@ -124,7 +118,7 @@ public class SignatureTest {
         assertTrue(r.result);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSigningVerifyingFromExistingSignatureSeparateThread()
         throws Throwable {
         Document doc = getOriginalDocument();
@@ -144,14 +138,15 @@ public class SignatureTest {
     public static class VerifyingRunnable implements Runnable {
         public volatile Throwable throwable;
         public volatile boolean result;
-        private XMLSignature signature;
-        private PublicKey pubKey;
+        private final XMLSignature signature;
+        private final PublicKey pubKey;
 
         public VerifyingRunnable(XMLSignature signature, PublicKey pubKey) {
             this.signature = signature;
             this.pubKey = pubKey;
         }
 
+        @Override
         public void run() {
             try {
                 result = signature.checkSignatureValue(pubKey);
@@ -161,22 +156,7 @@ public class SignatureTest {
         }
     }
 
-    /**
-     * Loads the 'localhost' keystore from the test keystore.
-     *
-     * @return test keystore.
-     * @throws Exception
-     */
-    private KeyStore getKeyStore() throws Exception {
-        KeyStore ks = KeyStore.getInstance("JKS");
-        InputStream ksis = new FileInputStream(KEYSTORE_DIRECTORY + "test.jks");
-        ks.load(ksis, KEYSTORE_PASSWORD);
-        ksis.close();
-        return ks;
-    }
-
     private PublicKey getPublicKey() throws Exception {
-        KeyStore keyStore = getKeyStore();
         Enumeration<String> aliases = keyStore.aliases();
         while (aliases.hasMoreElements()) {
             String alias = aliases.nextElement();
@@ -188,12 +168,11 @@ public class SignatureTest {
     }
 
     private PrivateKey getPrivateKey() throws Exception {
-        KeyStore keyStore = getKeyStore();
         Enumeration<String> aliases = keyStore.aliases();
         while (aliases.hasMoreElements()) {
             String alias = aliases.nextElement();
             if (keyStore.isKeyEntry(alias)) {
-                return (PrivateKey) keyStore.getKey(alias, KEYSTORE_PASSWORD);
+                return (PrivateKey) keyStore.getKey(alias, XmlSecTestEnvironment.TEST_KS_PASSWORD.toCharArray());
             }
         }
         return null;

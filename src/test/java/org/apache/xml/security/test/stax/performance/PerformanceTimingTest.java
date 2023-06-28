@@ -18,16 +18,16 @@
  */
 package org.apache.xml.security.test.stax.performance;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  */
@@ -82,9 +82,7 @@ public class PerformanceTimingTest extends AbstractPerformanceTest {
         FileWriter inSignatureSamplesWriter = new FileWriter("target/signatureInTimeSamples.txt", false);
 
         int run = 1;
-        Iterator<Map.Entry<Integer, File>> mapIterator = signedFiles.entrySet().iterator();
-        while (mapIterator.hasNext()) {
-            Map.Entry<Integer, File> entry = mapIterator.next();
+        for (Entry<Integer, File> entry : signedFiles.entrySet()) {
             System.out.println("Run " + (run++));
 
             File file = entry.getValue();
@@ -142,9 +140,7 @@ public class PerformanceTimingTest extends AbstractPerformanceTest {
         FileWriter inEncryptionSamplesWriter = new FileWriter("target/encryptionInTimeSamples.txt", false);
 
         int run = 1;
-        Iterator<Map.Entry<Integer, File>> mapIterator = encryptedFiles.entrySet().iterator();
-        while (mapIterator.hasNext()) {
-            Map.Entry<Integer, File> entry = mapIterator.next();
+        for (Entry<Integer, File> entry : encryptedFiles.entrySet()) {
             System.out.println("Run " + (run++));
 
             File file = entry.getValue();

@@ -22,8 +22,8 @@ package org.apache.xml.security.test.dom.c14n.implementations;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,15 +41,17 @@ import org.apache.xml.security.signature.XMLSignatureInput;
 import org.apache.xml.security.test.dom.DSNamespaceContext;
 import org.apache.xml.security.test.dom.TestUtils;
 import org.apache.xml.security.utils.Constants;
-import org.apache.xml.security.utils.JavaUtils;
 import org.apache.xml.security.utils.XMLUtils;
 import org.apache.xml.security.utils.resolver.ResourceResolver;
 import org.apache.xml.security.utils.resolver.implementations.ResolverLocalFilesystem;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import static org.apache.xml.security.test.XmlSecTestEnvironment.resolveFile;
+import static org.apache.xml.security.test.XmlSecTestEnvironment.resolvePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -71,16 +73,16 @@ public class Canonicalizer20010315ExclusiveTest {
     /**
      * Method testA
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testA() throws Exception {
 
-        File fileIn = new File(getAbsolutePath(
-            "src/test/resources/ie/baltimore/merlin-examples/ec-merlin-iaikTests-two/signature.xml"));
+        File fileIn = resolveFile(
+            "src/test/resources/ie/baltimore/merlin-examples/ec-merlin-iaikTests-two/signature.xml");
 
         // File fileIn = new File("signature.xml");
         assertTrue(fileIn.exists(), "file exists");
 
-        Document doc = XMLUtils.read(new FileInputStream(fileIn), false);
+        Document doc = XMLUtils.read(fileIn, false);
         Element signatureElement =
             (Element) doc.getElementsByTagNameNS(
                 Constants.SignatureSpecNS, Constants._TAG_SIGNATURE).item(0);
@@ -107,18 +109,14 @@ public class Canonicalizer20010315ExclusiveTest {
     /**
      * Method test221
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test221() throws Exception {
-
-        Document doc =
-            XMLUtils.read(
-                new FileInputStream(getAbsolutePath("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_1.xml")),
-                false
-            );
+        Document doc = XMLUtils
+            .read(resolveFile("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_1.xml"), false);
         Node root = doc.getElementsByTagNameNS("http://example.net", "elem2").item(0);
         Canonicalizer20010315 c = new Canonicalizer20010315WithComments();
-        byte[] reference = JavaUtils.getBytesFromFile(getAbsolutePath(
-            "src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_1_c14nized.xml"));
+        byte[] reference = Files.readAllBytes(
+            resolvePath("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_1_c14nized.xml"));
         try (ByteArrayOutputStream writer = new ByteArrayOutputStream()) {
             c.engineCanonicalizeSubTree(root, writer);
             boolean equals = java.security.MessageDigest.isEqual(reference, writer.toByteArray());
@@ -130,16 +128,14 @@ public class Canonicalizer20010315ExclusiveTest {
     /**
      * Method test222
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test222() throws Exception {
-        Document doc =
-            XMLUtils.read(new FileInputStream(getAbsolutePath(
-                "src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_2.xml")
-            ), false);
+        Document doc = XMLUtils
+            .read(resolveFile("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_2.xml"), false);
         Node root = doc.getElementsByTagNameNS("http://example.net", "elem2").item(0);
         Canonicalizer20010315 c = new Canonicalizer20010315WithComments();
-        byte[] reference = JavaUtils.getBytesFromFile(getAbsolutePath(
-            "src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_2_c14nized.xml"));
+        byte[] reference = Files.readAllBytes(
+            resolvePath("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_2_c14nized.xml"));
         try (ByteArrayOutputStream writer = new ByteArrayOutputStream()) {
             c.engineCanonicalizeSubTree(root, writer);
             boolean equals = java.security.MessageDigest.isEqual(reference, writer.toByteArray());
@@ -151,16 +147,14 @@ public class Canonicalizer20010315ExclusiveTest {
     /**
      * Method test221excl
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test221excl() throws Exception {
-        Document doc =
-            XMLUtils.read(new FileInputStream(getAbsolutePath(
-                "src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_1.xml")),
-                          false);
+        Document doc = XMLUtils
+            .read(resolveFile("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_1.xml"), false);
         Node root = doc.getElementsByTagNameNS("http://example.net", "elem2").item(0);
         Canonicalizer20010315Excl c = new Canonicalizer20010315ExclWithComments();
-        byte[] reference = JavaUtils.getBytesFromFile(getAbsolutePath(
-            "src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_c14nized_exclusive.xml"));
+        byte[] reference = Files.readAllBytes(
+            resolvePath("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_c14nized_exclusive.xml"));
         try (ByteArrayOutputStream writer = new ByteArrayOutputStream()) {
             c.engineCanonicalizeSubTree(root, writer);
             boolean equals = java.security.MessageDigest.isEqual(reference, writer.toByteArray());
@@ -172,16 +166,14 @@ public class Canonicalizer20010315ExclusiveTest {
     /**
      * Method test222excl
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test222excl() throws Exception {
-        Document doc =
-            XMLUtils.read(new FileInputStream(getAbsolutePath(
-                "src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_2.xml")),
-                          false);
+        Document doc = XMLUtils
+            .read(resolveFile("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_2.xml"), false);
         Node root = doc.getElementsByTagNameNS("http://example.net", "elem2").item(0);
         Canonicalizer20010315Excl c = new Canonicalizer20010315ExclWithComments();
-        byte[] reference = JavaUtils.getBytesFromFile(getAbsolutePath(
-            "src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_c14nized_exclusive.xml") );
+        byte[] reference = Files.readAllBytes(
+            resolvePath("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_c14nized_exclusive.xml"));
         try (ByteArrayOutputStream writer = new ByteArrayOutputStream()) {
             c.engineCanonicalizeSubTree(root, writer);
             boolean equals = java.security.MessageDigest.isEqual(reference, writer.toByteArray());
@@ -195,12 +187,10 @@ public class Canonicalizer20010315ExclusiveTest {
      *
      * Provided by Gabriel McGoldrick - see e-mail of 21/11/03
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test223excl() throws Exception {
-        Document doc =
-            XMLUtils.read(new FileInputStream(getAbsolutePath(
-                "src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_3.xml")),
-                          false);
+        Document doc = XMLUtils
+            .read(resolveFile("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_3.xml"), false);
 
         XPathFactory xpf = XPathFactory.newInstance();
         XPath xpath = xpf.newXPath();
@@ -211,10 +201,8 @@ public class Canonicalizer20010315ExclusiveTest {
             (NodeList) xpath.evaluate(expression, doc, XPathConstants.NODESET);
 
         Canonicalizer20010315Excl c = new Canonicalizer20010315ExclWithComments();
-        byte[] reference = JavaUtils.getBytesFromFile(
-            getAbsolutePath(
-                "src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_3_c14nized_exclusive.xml")
-            );
+        byte[] reference = Files.readAllBytes(
+            resolvePath("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_2_3_c14nized_exclusive.xml"));
         try (ByteArrayOutputStream writer = new ByteArrayOutputStream()) {
             c.engineCanonicalizeXPathNodeSet(XMLUtils.convertNodelistToSet(nodes), writer);
             assertEquals(new String(reference), new String(writer.toByteArray()));
@@ -225,7 +213,7 @@ public class Canonicalizer20010315ExclusiveTest {
      * Tests node-set as input. See bug 37708.
      * Provided by Pete Hendry.
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testNodeSet() throws Exception {
         final String XML =
             "<env:Envelope"
@@ -270,19 +258,15 @@ public class Canonicalizer20010315ExclusiveTest {
      * "Canonicalizer can't handle dynamical created DOM correctly"
      * https://issues.apache.org/jira/browse/SANTUARIO-263
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test24excl() throws Exception {
-        Document doc =
-            XMLUtils.read(
-                new FileInputStream(getAbsolutePath(
-                    "src/test/resources/org/apache/xml/security/c14n/inExcl/example2_4.xml")),
-                false);
+        Document doc = XMLUtils
+            .read(resolveFile("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_4.xml"), false);
         Node root =
             doc.getElementsByTagNameNS("http://example.net", "elem2").item(0);
         Canonicalizer20010315Excl c = new Canonicalizer20010315ExclWithComments();
-        byte[] reference =
-            JavaUtils.getBytesFromFile(getAbsolutePath(
-                "src/test/resources/org/apache/xml/security/c14n/inExcl/example2_4_c14nized.xml"));
+        byte[] reference = Files.readAllBytes(
+            resolvePath("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_4_c14nized.xml"));
         try (ByteArrayOutputStream writer = new ByteArrayOutputStream()) {
             c.engineCanonicalizeSubTree(root, writer);
             boolean equals = java.security.MessageDigest.isEqual(reference, writer.toByteArray());
@@ -296,7 +280,7 @@ public class Canonicalizer20010315ExclusiveTest {
      * "Canonicalizer can't handle dynamical created DOM correctly"
      * https://issues.apache.org/jira/browse/SANTUARIO-263
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test24Aexcl() throws Exception {
         Document doc = TestUtils.newDocument();
         Element local = doc.createElementNS("foo:bar", "dsig:local");
@@ -310,9 +294,8 @@ public class Canonicalizer20010315ExclusiveTest {
 
         Node root = doc.getElementsByTagNameNS("http://example.net", "elem2").item(0);
         Canonicalizer20010315Excl c = new Canonicalizer20010315ExclWithComments();
-        byte[] reference =
-            JavaUtils.getBytesFromFile(getAbsolutePath(
-                "src/test/resources/org/apache/xml/security/c14n/inExcl/example2_4_c14nized.xml"));
+        byte[] reference = Files.readAllBytes(
+            resolvePath("src/test/resources/org/apache/xml/security/c14n/inExcl/example2_4_c14nized.xml"));
         try (ByteArrayOutputStream writer = new ByteArrayOutputStream()) {
             c.engineCanonicalizeSubTree(root, writer);
             boolean equals = java.security.MessageDigest.isEqual(reference, writer.toByteArray());
@@ -326,7 +309,7 @@ public class Canonicalizer20010315ExclusiveTest {
      *
      * @throws Exception
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testDefaultNSInInclusiveNamespacePrefixList1() throws Exception {
         final String XML =
                 "<env:Envelope"
@@ -380,7 +363,7 @@ public class Canonicalizer20010315ExclusiveTest {
      *
      * @throws Exception
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testDefaultNSInInclusiveNamespacePrefixList2() throws Exception {
         final String XML =
                 "<env:Envelope"
@@ -446,7 +429,7 @@ public class Canonicalizer20010315ExclusiveTest {
      *
      * @throws Exception
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testDefaultNSInInclusiveNamespacePrefixList3() throws Exception {
         final String XML =
                 "<env:Envelope"
@@ -501,7 +484,7 @@ public class Canonicalizer20010315ExclusiveTest {
      *
      * @throws Exception
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testDefaultNSInInclusiveNamespacePrefixList4() throws Exception {
         final String XML =
                 "<env:Envelope"
@@ -555,7 +538,7 @@ public class Canonicalizer20010315ExclusiveTest {
      *
      * @throws Exception
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void testPropagateDefaultNs1() throws Exception {
         final String XML =
                 "<env:Envelope"
@@ -591,7 +574,7 @@ public class Canonicalizer20010315ExclusiveTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testPropagateDefaultNs2() throws Exception {
         final String XML =
                 "<env:Envelope"
@@ -628,7 +611,7 @@ public class Canonicalizer20010315ExclusiveTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testPropagateDefaultNs3() throws Exception {
         final String XML =
                 "<Envelope"
@@ -665,7 +648,7 @@ public class Canonicalizer20010315ExclusiveTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testPropagateDefaultNs4() throws Exception {
         final String XML =
                 "<Envelope"
@@ -702,7 +685,7 @@ public class Canonicalizer20010315ExclusiveTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testPropagateDefaultNs5() throws Exception {
         final String XML =
                 "<env:Envelope"
@@ -733,13 +716,4 @@ public class Canonicalizer20010315ExclusiveTest {
             assertEquals(c14nXML, new String(writer.toByteArray()));
         }
     }
-
-    private String getAbsolutePath(String path) {
-        String basedir = System.getProperty("basedir");
-        if (basedir != null && basedir.length() != 0) {
-            path = basedir + "/" + path;
-        }
-        return path;
-    }
-
 }

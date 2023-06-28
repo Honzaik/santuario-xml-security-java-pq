@@ -28,6 +28,7 @@ import org.apache.xml.security.Init;
 import org.apache.xml.security.signature.XMLSignature;
 import org.apache.xml.security.test.dom.DSNamespaceContext;
 import org.apache.xml.security.utils.XMLUtils;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -40,14 +41,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class Santuario499Test {
 
-    static org.slf4j.Logger LOG =
-        org.slf4j.LoggerFactory.getLogger(Santuario499Test.class);
-
     static {
         Init.init();
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testXSLTTransform() throws Exception {
 
         URL signatureFile = this.getClass().getResource("Arbeidstijd_anonymous.xml");

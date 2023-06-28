@@ -18,6 +18,8 @@
  */
 package org.apache.xml.security.stax.ext;
 
+import jakarta.xml.bind.JAXBElement;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -38,17 +40,12 @@ import java.util.TreeSet;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.XMLConstants;
-import jakarta.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-
-import org.w3c.dom.ls.LSInput;
-import org.w3c.dom.ls.LSResourceResolver;
-import org.xml.sax.SAXException;
 
 import org.apache.xml.security.algorithms.JCEMapper;
 import org.apache.xml.security.algorithms.implementations.ECDSAUtils;
@@ -71,6 +68,9 @@ import org.apache.xml.security.stax.securityToken.SecurityTokenConstants;
 import org.apache.xml.security.utils.ClassLoaderUtils;
 import org.apache.xml.security.utils.JavaUtils;
 import org.apache.xml.security.utils.XMLUtils;
+import org.w3c.dom.ls.LSInput;
+import org.w3c.dom.ls.LSResourceResolver;
+import org.xml.sax.SAXException;
 
 /**
  */
@@ -155,8 +155,7 @@ public class XMLSecurityUtils {
 
     @SuppressWarnings("unchecked")
     public static <T> T getQNameType(List<Object> objects, QName qName) {
-        for (int i = 0; i < objects.size(); i++) {
-            Object o = objects.get(i);
+        for (Object o : objects) {
             if (o instanceof JAXBElement) {
                 JAXBElement<?> jaxbElement = (JAXBElement<?>) o;
                 if (jaxbElement.getName().equals(qName)) {
@@ -434,8 +433,7 @@ public class XMLSecurityUtils {
             }
 
             if (excludeVisible) {
-                for (int i = 0; i < onElementDeclaredNamespaces.size(); i++) {
-                    XMLSecNamespace xmlSecNamespace = onElementDeclaredNamespaces.get(i);
+                for (XMLSecNamespace xmlSecNamespace : onElementDeclaredNamespaces) {
                     String prefix = xmlSecNamespace.getPrefix();
                     if (prefix == null || prefix.isEmpty()) {
                         prefixes.remove("#default");

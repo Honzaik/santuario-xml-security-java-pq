@@ -18,7 +18,6 @@
  */
 package org.apache.xml.security.test.stax.signature;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.security.Key;
 import java.security.Provider;
@@ -33,10 +32,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.apache.xml.security.signature.XMLSignature;
@@ -60,9 +55,12 @@ import org.apache.xml.security.test.dom.DSNamespaceContext;
 import org.apache.xml.security.test.stax.utils.XMLSecEventAllocator;
 import org.apache.xml.security.transforms.Transforms;
 import org.apache.xml.security.utils.resolver.ResourceResolverSpi;
-
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -73,7 +71,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class AbstractSignatureVerificationTest {
 
-    protected static String BASEDIR;
     protected static boolean bcInstalled;
 
     protected XMLInputFactory xmlInputFactory;
@@ -81,12 +78,6 @@ public class AbstractSignatureVerificationTest {
 
     @BeforeAll
     public static void setup() throws Exception {
-        String baseDir = System.getProperty("basedir");
-        if (baseDir == null) {
-            baseDir = new File(".").getCanonicalPath();
-        }
-        BASEDIR = baseDir;
-
         Init.init(AbstractSignatureVerificationTest.class.getClassLoader().getResource("security-config.xml").toURI(),
                 AbstractSignatureVerificationTest.class);
         org.apache.xml.security.Init.init();
@@ -111,7 +102,7 @@ public class AbstractSignatureVerificationTest {
         }
     }
 
-    @org.junit.jupiter.api.AfterAll
+    @AfterAll
     public static void cleanup() throws Exception {
         Security.removeProvider("BC");
     }
@@ -284,8 +275,7 @@ public class AbstractSignatureVerificationTest {
         }
 
         if (additionalReferences != null) {
-            for (int i = 0; i < additionalReferences.size(); i++) {
-                ReferenceInfo referenceInfo = additionalReferences.get(i);
+            for (ReferenceInfo referenceInfo : additionalReferences) {
                 if (referenceInfo.isBinary()) {
                     sig.addDocument(referenceInfo.getResource(), null, referenceInfo.getDigestMethod());
                 } else {

@@ -20,6 +20,8 @@ package org.apache.xml.security.test.dom.encryption;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -49,12 +51,14 @@ import org.apache.xml.security.keys.content.x509.XMLX509Certificate;
 import org.apache.xml.security.keys.keyresolver.KeyResolver;
 import org.apache.xml.security.test.dom.DSNamespaceContext;
 import org.apache.xml.security.utils.EncryptionConstants;
-import org.apache.xml.security.utils.JavaUtils;
 import org.apache.xml.security.utils.XMLUtils;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import static org.apache.xml.security.test.XmlSecTestEnvironment.resolveFile;
+import static org.apache.xml.security.test.XmlSecTestEnvironment.resolvePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
@@ -75,8 +79,8 @@ public class BaltimoreEncTest {
     private static byte[] jedBytes;
     private static PrivateKey rsaKey;
     private boolean haveISOPadding;
-    private boolean haveKeyWraps;
-    private boolean isIBMJdK = System.getProperty("java.vendor").contains("IBM");
+    private final boolean haveKeyWraps;
+    private final boolean isIBMJdK = System.getProperty("java.vendor").contains("IBM");
 
     static org.slf4j.Logger LOG =
         org.slf4j.LoggerFactory.getLogger(BaltimoreEncTest.class);
@@ -86,15 +90,10 @@ public class BaltimoreEncTest {
      */
     public BaltimoreEncTest() throws Exception {
         // Create the comparison strings
-        String filename =
-            "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/plaintext.xml";
-        String basedir = System.getProperty("basedir");
-        if (basedir != null && basedir.length() != 0) {
-            filename = basedir + "/" + filename;
-        }
-        File f = new File(filename);
+        File f = resolveFile("src", "test", "resources", "ie", "baltimore", "merlin-examples", "merlin-xmlenc-five",
+            "plaintext.xml");
 
-        Document doc = XMLUtils.read(new java.io.FileInputStream(f), false);
+        Document doc = XMLUtils.read(f, false);
 
         cardNumber = retrieveCCNumber(doc);
 
@@ -113,12 +112,9 @@ public class BaltimoreEncTest {
         rsaCertSerialNumber = "1014918766910";
 
         // rsaKey
-        filename = "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/rsa.p8";
-        if (basedir != null && basedir.length() != 0) {
-            filename = basedir + "/" + filename;
-        }
-
-        byte[] pkcs8Bytes = JavaUtils.getBytesFromFile(filename);
+        Path filename = resolvePath("src", "test", "resources", "ie", "baltimore", "merlin-examples",
+            "merlin-xmlenc-five", "rsa.p8");
+        byte[] pkcs8Bytes = Files.readAllBytes(filename);
         PKCS8EncodedKeySpec pkcs8Spec = new PKCS8EncodedKeySpec(pkcs8Bytes);
 
         // Create a key factory
@@ -158,14 +154,14 @@ public class BaltimoreEncTest {
      *
      * Check the merlin-enc-five element content test for 3DES
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test_five_content_3des_cbc() throws Exception {
 
         if (haveISOPadding) {
-            String filename =
-                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-content-tripledes-cbc.xml";
+            File file = resolveFile(
+                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-content-tripledes-cbc.xml");
 
-            Document dd = decryptElement(filename);
+            Document dd = decryptElement(file);
             checkDecryptedDoc(dd, true);
         } else {
             LOG.warn(
@@ -180,14 +176,14 @@ public class BaltimoreEncTest {
      *
      * Check the merlin-enc-five element content test for AES256
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test_five_content_aes256_cbc() throws Exception {
 
         if (haveISOPadding) {
-            String filename =
-                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-content-aes256-cbc-prop.xml";
+            File file = resolveFile(
+                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-content-aes256-cbc-prop.xml");
 
-            Document dd = decryptElement(filename);
+            Document dd = decryptElement(file);
             checkDecryptedDoc(dd, true);
         } else {
             LOG.warn(
@@ -203,13 +199,13 @@ public class BaltimoreEncTest {
      * Check the merlin-enc-five element content test for AES128 with
      * AES 192 key wrap
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test_five_content_aes128_cbc_kw_aes192() throws Exception {
         if (haveISOPadding && haveKeyWraps) {
-            String filename =
-                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-content-aes128-cbc-kw-aes192.xml";
+            File file = resolveFile(
+                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-content-aes128-cbc-kw-aes192.xml");
 
-            Document dd = decryptElement(filename);
+            Document dd = decryptElement(file);
             checkDecryptedDoc(dd, true);
         } else {
             LOG.warn(
@@ -225,14 +221,14 @@ public class BaltimoreEncTest {
      * Check the merlin-enc-five element content test for 3DES with
      * AES 128 key wrap
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test_five_content_3des_cbc_kw_aes128() throws Exception {
 
         if (haveISOPadding && haveKeyWraps) {
-            String filename =
-                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-element-tripledes-cbc-kw-aes128.xml";
+            File file = resolveFile(
+                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-element-tripledes-cbc-kw-aes128.xml");
 
-            Document dd = decryptElement(filename);
+            Document dd = decryptElement(file);
             checkDecryptedDoc(dd, true);
         } else {
             LOG.warn(
@@ -248,13 +244,13 @@ public class BaltimoreEncTest {
      * Check the merlin-enc-five element content test for AES128 with
      * RSA key wrap (PKCS 1.5 padding)
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test_five_content_aes128_cbc_rsa_15() throws Exception {
         if (haveISOPadding) {
-            String filename =
-                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-element-aes128-cbc-rsa-1_5.xml";
+            File file = resolveFile(
+                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-element-aes128-cbc-rsa-1_5.xml");
 
-            Document dd = decryptElement(filename);
+            Document dd = decryptElement(file);
             checkDecryptedDoc(dd, true);
         } else {
             LOG.warn(
@@ -270,13 +266,13 @@ public class BaltimoreEncTest {
      * Check the merlin-enc-five element data test for AES192 with
      * a CipherReference element
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test_five_element_aes192_cbc_ref() throws Exception {
         if (haveISOPadding) {
-            String filename =
-                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-element-aes192-cbc-ref.xml";
+            File file = resolveFile(
+                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-element-aes192-cbc-ref.xml");
 
-            Document dd = decryptElement(filename);
+            Document dd = decryptElement(file);
             // Note - we don't check the node count, as it will be different
             // due to the encrypted text remainin in the reference nodes
             checkDecryptedDoc(dd, false);
@@ -294,13 +290,11 @@ public class BaltimoreEncTest {
      * Check the merlin-enc-five element data test for AES128 with no
      * key wrap
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test_five_data_aes128_cbc() throws Exception {
         if (haveISOPadding) {
-            String filename =
-                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-data-aes128-cbc.xml";
-
-            byte[] decrypt = decryptData(filename);
+            File file = resolveFile("src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-data-aes128-cbc.xml");
+            byte[] decrypt = decryptData(file);
             checkDecryptedData(decrypt);
         } else {
             LOG.warn(
@@ -316,15 +310,14 @@ public class BaltimoreEncTest {
      * Check the merlin-enc-five element data test for AES256 with 3DES
      * key wrap
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test_five_data_aes256_cbc_3des() throws Exception {
         assumeFalse(isIBMJdK);
 
         if (haveISOPadding && haveKeyWraps) {
-            String filename =
-                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-data-aes256-cbc-kw-tripledes.xml";
-
-            byte[] decrypt = decryptData(filename);
+            File file = resolveFile(
+                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-data-aes256-cbc-kw-tripledes.xml");
+            byte[] decrypt = decryptData(file);
             checkDecryptedData(decrypt);
         } else {
             LOG.warn(
@@ -340,13 +333,12 @@ public class BaltimoreEncTest {
      * Check the merlin-enc-five element data test for AES192 with AES256
      * key wrap
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test_five_data_aes192_cbc_aes256() throws Exception {
         if (haveISOPadding && haveKeyWraps) {
-            String filename =
-                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-data-aes192-cbc-kw-aes256.xml";
-
-            byte[] decrypt = decryptData(filename);
+            File file = resolveFile(
+                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-data-aes192-cbc-kw-aes256.xml");
+            byte[] decrypt = decryptData(file);
             checkDecryptedData(decrypt);
         } else {
             LOG.warn(
@@ -362,13 +354,12 @@ public class BaltimoreEncTest {
      * Check the merlin-enc-five element data test for 3DES with
      * RSA key wrap (OAEP and no parameters)
      */
-    @org.junit.jupiter.api.Test
+    @Test
     public void test_five_data_3des_cbc_rsa_oaep() throws Exception {
         if (haveISOPadding) {
-            String filename =
-                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-data-tripledes-cbc-rsa-oaep-mgf1p.xml";
-
-            byte[] decrypt = decryptData(filename);
+            File file = resolveFile(
+                "src/test/resources/ie/baltimore/merlin-examples/merlin-xmlenc-five/encrypt-data-tripledes-cbc-rsa-oaep-mgf1p.xml");
+            byte[] decrypt = decryptData(file);
             checkDecryptedData(decrypt);
         } else {
             LOG.warn(
@@ -386,24 +377,16 @@ public class BaltimoreEncTest {
      *
      * @param filename File to decrypt from
      */
-    private Document decryptElement(String filename) throws Exception {
-        XMLCipher cipher;
+    private Document decryptElement(File file) throws Exception {
 
         // Parse the document in question
-
-        String basedir = System.getProperty("basedir");
-        if (basedir != null && basedir.length() != 0) {
-            filename = basedir + "/" + filename;
-        }
-        File f = new File(filename);
-
-        Document doc = XMLUtils.read(new java.io.FileInputStream(f), false);
+        Document doc = XMLUtils.read(file, false);
 
         // Now we have the document, lets build the XMLCipher element
         Element ee = null;
 
         // Create the XMLCipher element
-        cipher = XMLCipher.getInstance();
+        XMLCipher cipher = XMLCipher.getInstance();
 
         // Need to pre-load the Encrypted Data so we can get the key info
         ee = (Element) doc.getElementsByTagName("EncryptedData").item(0);
@@ -425,18 +408,12 @@ public class BaltimoreEncTest {
      *
      * @param filename File to decrypt from
      */
-    private byte[] decryptData(String filename) throws Exception {
+    private byte[] decryptData(File file) throws Exception {
 
         XMLCipher cipher;
 
         // Parse the document in question
-        String basedir = System.getProperty("basedir");
-        if (basedir != null && basedir.length() != 0) {
-            filename = basedir + "/" + filename;
-        }
-        File f = new File(filename);
-
-        Document doc = XMLUtils.read(new java.io.FileInputStream(f), false);
+        Document doc = XMLUtils.read(new java.io.FileInputStream(file), false);
 
         // Now we have the document, lets build the XMLCipher element
         Element ee = null;
