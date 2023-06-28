@@ -32,6 +32,8 @@ import org.apache.xml.security.algorithms.implementations.SignatureBaseRSA;
 import org.apache.xml.security.algorithms.implementations.SignatureDSA;
 import org.apache.xml.security.algorithms.implementations.SignatureECDSA;
 import org.apache.xml.security.algorithms.implementations.SignatureEDDSA;
+import org.apache.xml.security.algorithms.implementations.SignatureBaseDilithium;
+import org.apache.xml.security.algorithms.implementations.SignatureBaseFalcon;
 import org.apache.xml.security.exceptions.AlgorithmAlreadyRegisteredException;
 import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.apache.xml.security.signature.XMLSignature;
