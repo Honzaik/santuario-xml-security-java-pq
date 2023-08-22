@@ -25,11 +25,11 @@ import org.apache.xml.security.signature.XMLSignatureException;
 
 import java.security.*;
 import java.security.spec.AlgorithmParameterSpec;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 
 public abstract class SignatureBaseDilithium extends SignatureAlgorithmSpi {
-
-    private static final org.slf4j.Logger LOG =
-        org.slf4j.LoggerFactory.getLogger(SignatureBaseDilithium.class);
+    private static final Logger LOG = System.getLogger(SignatureBaseDilithium.class.getName());
 
     /** Field algorithm */
     private final Signature signatureAlgorithm;
@@ -45,7 +45,7 @@ public abstract class SignatureBaseDilithium extends SignatureAlgorithmSpi {
 
     public SignatureBaseDilithium(Provider provider) throws XMLSignatureException {
         String algorithmID = JCEMapper.translateURItoJCEID(this.engineGetURI());
-        LOG.debug("Created SignatureRSA using {}", algorithmID);
+        LOG.log(Level.DEBUG, "Created SignatureRSA using {}", algorithmID);
 
         try {
             if (provider == null) {
