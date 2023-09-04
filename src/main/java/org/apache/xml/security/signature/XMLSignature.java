@@ -214,6 +214,7 @@ public final class XMLSignature extends SignatureElementProxy {
     /** Post-quantum signatures */
     public static final String ALGO_ID_SIGNATURE_DILITHIUM = Constants.XML_DSIG_PQC + "dilithium";
     public static final String ALGO_ID_SIGNATURE_FALCON = Constants.XML_DSIG_PQC + "falcon";
+    public static final String ALGO_ID_SIGNATURE_SPHINCSPLUS = Constants.XML_DSIG_PQC + "sphincsplus";
 
     private static final Logger LOG = System.getLogger(XMLSignature.class.getName());
 

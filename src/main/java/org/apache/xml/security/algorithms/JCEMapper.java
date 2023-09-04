@@ -227,6 +227,10 @@ public class JCEMapper {
                 new Algorithm("Falcon", "Falcon", "Signature")
         );
         algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SPHINCSPLUS,
+                new Algorithm("SphincsPlus", "SphincsPlus", "Signature")
+        );
+        algorithmsMap.put(
             XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5,
             new Algorithm("", "HmacMD5", "Mac", 0, 0)
         );
