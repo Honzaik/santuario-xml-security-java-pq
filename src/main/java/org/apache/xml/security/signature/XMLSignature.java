@@ -215,6 +215,8 @@ public final class XMLSignature extends SignatureElementProxy {
     public static final String ALGO_ID_SIGNATURE_DILITHIUM = Constants.XML_DSIG_PQC + "dilithium";
     public static final String ALGO_ID_SIGNATURE_FALCON = Constants.XML_DSIG_PQC + "falcon";
     public static final String ALGO_ID_SIGNATURE_SPHINCSPLUS = Constants.XML_DSIG_PQC + "sphincsplus";
+    public static final String ALGO_ID_SIGNATURE_HYBRID_EDDSA_ED25519_DILITHIUM = Constants.XML_DSIG_PQC_HYBRID + "eddsa-ed25519-dilithium";
+    public static final String ALGO_ID_SIGNATURE_HYBRID_RSA_SHA256_DILITHIUM = Constants.XML_DSIG_PQC_HYBRID + "rsa-sha256-dilithium";
 
     private static final Logger LOG = System.getLogger(XMLSignature.class.getName());
 

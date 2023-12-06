@@ -20,6 +20,8 @@ package org.apache.xml.security.algorithms;
 
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -229,6 +231,14 @@ public class JCEMapper {
         algorithmsMap.put(
                 XMLSignature.ALGO_ID_SIGNATURE_SPHINCSPLUS,
                 new Algorithm("SphincsPlus", "SphincsPlus", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_HYBRID_EDDSA_ED25519_DILITHIUM,
+                new Algorithm("Ed25519|Dilithium", "Ed25519|Dilithium", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_HYBRID_RSA_SHA256_DILITHIUM,
+                new Algorithm("RSA|Dilithium", "SHA256withRSA|Dilithium", "Signature")
         );
         algorithmsMap.put(
             XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5,
@@ -452,6 +462,15 @@ public class JCEMapper {
             return algorithmsMap.get(algorithmURI);
         }
         return null;
+    }
+
+    public static List<String> getComponentAlgorithmIds(String hybridAlgorithmID) {
+        String[] splitIDs = hybridAlgorithmID.split("\\|");
+        if (splitIDs.length < 2) {
+            LOG.log(Level.ERROR, "Hybrid algorithm composite ID does not contain more than 1 algorithm ID {0}", hybridAlgorithmID);
+            return null;
+        }
+        return Arrays.asList(splitIDs);
     }
 
     /**
