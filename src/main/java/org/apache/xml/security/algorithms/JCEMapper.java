@@ -231,6 +231,10 @@ public class JCEMapper {
                 new Algorithm("SphincsPlus", "SphincsPlus", "Signature")
         );
         algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_MLDSA44andECDSAP256,
+                new Algorithm("MLDSA44andECDSAP256", "MLDSA44andECDSAP256", "Signature")
+        );
+        algorithmsMap.put(
             XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5,
             new Algorithm("", "HmacMD5", "Mac", 0, 0)
         );

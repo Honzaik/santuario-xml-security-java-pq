@@ -70,6 +70,8 @@ public final class Constants {
     /** Post-quantum signature namespace */
     public static final String XML_DSIG_PQC = "http://www.w3.org/2023/02/xmldsig-pqc#";
 
+    public static final String XML_DSIG_PQC_COMPOSITES = "http://www.w3.org/2023/02/xmldsig-pqc-composites#";
+
 
     /** The URI for XML spec*/
     public static final String XML_LANG_SPACE_SpecNS = "http://www.w3.org/XML/1998/namespace";

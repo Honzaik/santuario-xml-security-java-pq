@@ -507,6 +507,9 @@ public class SignatureAlgorithm extends Algorithm {
                 XMLSignature.ALGO_ID_SIGNATURE_SPHINCSPLUS, SignatureBaseSphincsPlus.SignatureSphincsPlus.class
         );
         algorithmHash.put(
+                XMLSignature.ALGO_ID_SIGNATURE_MLDSA44andECDSAP256, SignatureBaseMLDSA44andECDSAP256.SignatureMLDSA44andECDSAP256.class
+        );
+        algorithmHash.put(
             XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5, IntegrityHmac.IntegrityHmacMD5.class
         );
         algorithmHash.put(
