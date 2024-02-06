@@ -216,6 +216,10 @@ public final class XMLSignature extends SignatureElementProxy {
     public static final String ALGO_ID_SIGNATURE_FALCON = Constants.XML_DSIG_PQC + "falcon";
     public static final String ALGO_ID_SIGNATURE_SPHINCSPLUS = Constants.XML_DSIG_PQC + "sphincsplus";
     public static final String ALGO_ID_SIGNATURE_MLDSA44andECDSAP256 = Constants.XML_DSIG_PQC_COMPOSITES + "mldsa44andecdsap256";
+    public static final String ALGO_ID_SIGNATURE_MLDSA87andECDSAP384 = Constants.XML_DSIG_PQC_COMPOSITES + "mldsa87andecdsap384";
+    public static final String ALGO_ID_SIGNATURE_MLDSA87andECDSAP521 = Constants.XML_DSIG_PQC_COMPOSITES + "mldsa87andecdsap521";
+    public static final String ALGO_ID_SIGNATURE_Falcon512andECDSAP256 = Constants.XML_DSIG_PQC_COMPOSITES + "falcon512andecdsap256";
+    public static final String ALGO_ID_SIGNATURE_Falcon1024andECDSAP521 = Constants.XML_DSIG_PQC_COMPOSITES + "falcon1024andecdsap521";
 
     private static final Logger LOG = System.getLogger(XMLSignature.class.getName());
 

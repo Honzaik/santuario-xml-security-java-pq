@@ -28,24 +28,24 @@ import java.lang.System.Logger.Level;
 import java.security.*;
 import java.security.spec.AlgorithmParameterSpec;
 
-public abstract class SignatureBaseMLDSA44andECDSAP256 extends SignatureAlgorithmSpi {
-    private static final Logger LOG = System.getLogger(SignatureBaseMLDSA44andECDSAP256.class.getName());
+public abstract class SignatureBaseComposite extends SignatureAlgorithmSpi {
+    private static final Logger LOG = System.getLogger(SignatureBaseComposite.class.getName());
 
     /** Field algorithm */
     private final Signature signatureAlgorithm;
 
     /**
-     * Constructor SignatureBaseMLDSA44andECDSAP256
+     * Constructor SignatureBaseComposite
      *
      * @throws XMLSignatureException
      */
-    public SignatureBaseMLDSA44andECDSAP256() throws XMLSignatureException {
+    public SignatureBaseComposite() throws XMLSignatureException {
         this(null);
     }
 
-    public SignatureBaseMLDSA44andECDSAP256(Provider provider) throws XMLSignatureException {
+    public SignatureBaseComposite(Provider provider) throws XMLSignatureException {
         String algorithmID = JCEMapper.translateURItoJCEID(this.engineGetURI());
-        LOG.log(Level.DEBUG, "Created SignatureMLDSA44andECDSAP256 using {}", algorithmID);
+        LOG.log(Level.DEBUG, "Created SignatureComposite using {}", algorithmID);
 
         try {
             if (provider == null) {
@@ -158,10 +158,10 @@ public abstract class SignatureBaseMLDSA44andECDSAP256 extends SignatureAlgorith
     protected void engineInitSign(
         Key signingKey, AlgorithmParameterSpec algorithmParameterSpec
     ) throws XMLSignatureException {
-        throw new XMLSignatureException("algorithms.CannotUseAlgorithmParameterSpecOnSignatureBaseMLDSA44andECDSAP256");
+        throw new XMLSignatureException("algorithms.CannotUseAlgorithmParameterSpecOnSignatureBaseComposite");
     }
 
-    public static class SignatureMLDSA44andECDSAP256 extends SignatureBaseMLDSA44andECDSAP256
+    public static class SignatureMLDSA44andECDSAP256 extends SignatureBaseComposite
     {
         /**
          * Constructor MLDSA44andECDSAP256
@@ -180,6 +180,94 @@ public abstract class SignatureBaseMLDSA44andECDSAP256 extends SignatureAlgorith
         @Override
         public String engineGetURI() {
             return XMLSignature.ALGO_ID_SIGNATURE_MLDSA44andECDSAP256;
+        }
+    }
+
+    public static class SignatureMLDSA87andECDSAP384 extends SignatureBaseComposite
+    {
+        /**
+         * Constructor MLDSA87andECDSAP384
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureMLDSA87andECDSAP384() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureMLDSA87andECDSAP384(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_MLDSA87andECDSAP384;
+        }
+    }
+
+    public static class SignatureMLDSA87andECDSAP521 extends SignatureBaseComposite
+    {
+        /**
+         * Constructor MLDSA87andECDSAP521
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureMLDSA87andECDSAP521() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureMLDSA87andECDSAP521(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_MLDSA87andECDSAP521;
+        }
+    }
+
+    public static class SignatureFalcon512andECDSAP256 extends SignatureBaseComposite
+    {
+        /**
+         * Constructor Falcon512andECDSAP256
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureFalcon512andECDSAP256() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureFalcon512andECDSAP256(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_Falcon512andECDSAP256;
+        }
+    }
+
+    public static class SignatureFalcon1024andECDSAP521 extends SignatureBaseComposite
+    {
+        /**
+         * Constructor Falcon1024andECDSAP521
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureFalcon1024andECDSAP521() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureFalcon1024andECDSAP521(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_Falcon1024andECDSAP521;
         }
     }
 }
