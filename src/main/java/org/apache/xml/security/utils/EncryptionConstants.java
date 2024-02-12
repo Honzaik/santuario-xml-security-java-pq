@@ -218,6 +218,12 @@ public final class EncryptionConstants {
     public static final String ALGO_ID_KEM_CMCE =
             EncryptionConstants.EncryptionSpecPQC + "cmce";
 
+    public static final String ALGO_ID_KEM_BIKE =
+            EncryptionConstants.EncryptionSpecPQC + "bike";
+
+    public static final String ALGO_ID_KEM_HQC =
+            EncryptionConstants.EncryptionSpecPQC + "hqc";
+
     /** Key Agreement - OPTIONAL Diffie-Hellman */
     public static final String ALGO_ID_KEYAGREEMENT_DH =
         EncryptionConstants.EncryptionSpecNS + "dh";

@@ -343,7 +343,14 @@ public class JCEMapper {
                 XMLCipher.CMCE,
                 new Algorithm("CMCE", "CMCE", "KeyTransport")
         );
-
+        algorithmsMap.put(
+                XMLCipher.BIKE,
+                new Algorithm("BIKE", "BIKE", "KeyTransport")
+        );
+        algorithmsMap.put(
+                XMLCipher.HQC,
+                new Algorithm("HQC", "HQC", "KeyTransport")
+        );
         algorithmsMap.put(
             XMLCipher.DIFFIE_HELLMAN,
             new Algorithm("", "", "KeyAgreement")

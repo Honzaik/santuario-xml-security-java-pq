@@ -141,6 +141,8 @@ public final class XMLCipher {
 
     public static final String KYBER = EncryptionConstants.ALGO_ID_KEM_KYBER;
     public static final String CMCE = EncryptionConstants.ALGO_ID_KEM_CMCE;
+    public static final String BIKE = EncryptionConstants.ALGO_ID_KEM_BIKE;
+    public static final String HQC = EncryptionConstants.ALGO_ID_KEM_HQC;
 
     /** DIFFIE_HELLMAN Cipher */
     public static final String DIFFIE_HELLMAN =
@@ -242,12 +244,12 @@ public final class XMLCipher {
 
     private static final String ENC_ALGORITHMS = TRIPLEDES + "\n" +
         AES_128 + "\n" + AES_256 + "\n" + AES_192 + "\n" + RSA_v1dot5 + "\n" +
-        RSA_OAEP + "\n" + RSA_OAEP_11 + "\n" + KYBER + "\n"+ CMCE + "\n" + TRIPLEDES_KeyWrap + "\n" +
+        RSA_OAEP + "\n" + RSA_OAEP_11 + "\n" + TRIPLEDES_KeyWrap + "\n" +
         AES_128_KeyWrap + "\n" + AES_256_KeyWrap + "\n" + AES_192_KeyWrap + "\n" +
         AES_128_GCM + "\n" + AES_192_GCM + "\n" + AES_256_GCM + "\n" + SEED_128 + "\n" +
         CAMELLIA_128 + "\n" + CAMELLIA_192 + "\n" + CAMELLIA_256 + "\n" +
         CAMELLIA_128_KeyWrap + "\n" + CAMELLIA_192_KeyWrap + "\n" + CAMELLIA_256_KeyWrap + "\n" +
-        SEED_128_KeyWrap + "\n";
+        SEED_128_KeyWrap + "\n" + KYBER + "\n"+ CMCE + "\n" + BIKE + "\n" + HQC + "\n";
 
     private static final Set<String> SUPPORTED_ALGORITHMS;
 
@@ -314,6 +316,8 @@ public final class XMLCipher {
         encryptionAlgorithms.add(RSA_OAEP_11);
         encryptionAlgorithms.add(KYBER);
         encryptionAlgorithms.add(CMCE);
+        encryptionAlgorithms.add(BIKE);
+        encryptionAlgorithms.add(HQC);
         encryptionAlgorithms.add(TRIPLEDES_KeyWrap);
         encryptionAlgorithms.add(AES_128_KeyWrap);
         encryptionAlgorithms.add(AES_256_KeyWrap);
