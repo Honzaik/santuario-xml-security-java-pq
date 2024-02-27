@@ -129,7 +129,7 @@ public final class XMLDSigRI extends Provider {
 
     public XMLDSigRI() {
         /* We are the ApacheXMLDSig provider */
-        super("ApacheXMLDSig", "4.0.99", INFO);
+        super("ApacheXMLDSig", "4.0.99-PQ", INFO);
 
         final Provider p = this;
         AccessController.doPrivileged(new PrivilegedAction<Void>() {

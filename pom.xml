@@ -104,7 +104,7 @@
         <woodstox.core.version>6.6.0</woodstox.core.version>
 
         <maven.compiler.release>11</maven.compiler.release>
-        <project.build.outputTimestamp>2023-11-24T14:32:28Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2024-02-16T07:32:37Z</project.build.outputTimestamp>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Allow Clirr severity to be overriden by the command-line option -DminSeverity=level -->
@@ -454,7 +454,7 @@
                         <path>
                             <groupId>com.google.errorprone</groupId>
                             <artifactId>error_prone_core</artifactId>
-                            <version>2.24.1</version>
+                            <version>2.25.0</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -632,20 +632,10 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.6.3</version>
                  <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.0</version>
-                <executions>
                     <execution>
                         <goals>
                             <goal>jar</goal>
@@ -674,25 +664,6 @@
     </reporting>
 
     <profiles>
-        <profile>
-            <id>release</id>
-            <activation>
-                <property>
-                    <name>release</name>
-                    <value />
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-source-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>fastinstall</id>
             <properties>
