@@ -161,113 +161,70 @@ public abstract class SignatureBaseComposite extends SignatureAlgorithmSpi {
         throw new XMLSignatureException("algorithms.CannotUseAlgorithmParameterSpecOnSignatureBaseComposite");
     }
 
-    public static class SignatureMLDSA44andECDSAP256 extends SignatureBaseComposite
+    public static class SignatureMLDSA44ECDSAP256SHA256 extends SignatureBaseComposite
     {
         /**
-         * Constructor MLDSA44andECDSAP256
+         * Constructor MLDSA44ECDSAP256SHA256
          *
          * @throws XMLSignatureException
          */
-        public SignatureMLDSA44andECDSAP256() throws XMLSignatureException {
+        public SignatureMLDSA44ECDSAP256SHA256() throws XMLSignatureException {
             super();
         }
 
-        public SignatureMLDSA44andECDSAP256(Provider provider) throws XMLSignatureException {
+        public SignatureMLDSA44ECDSAP256SHA256(Provider provider) throws XMLSignatureException {
             super(provider);
         }
 
         /** {@inheritDoc} */
         @Override
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_MLDSA44andECDSAP256;
+            return XMLSignature.ALGO_ID_SIGNATURE_MLDSA44_ECDSA_P256_SHA256;
         }
     }
 
-    public static class SignatureMLDSA87andECDSAP384 extends SignatureBaseComposite
+    public static class SignatureMLDSA87ECDSAP384SHA512 extends SignatureBaseComposite
     {
         /**
-         * Constructor MLDSA87andECDSAP384
+         * Constructor MLDSA87ECDSAP384SHA512
          *
          * @throws XMLSignatureException
          */
-        public SignatureMLDSA87andECDSAP384() throws XMLSignatureException {
+        public SignatureMLDSA87ECDSAP384SHA512() throws XMLSignatureException {
             super();
         }
 
-        public SignatureMLDSA87andECDSAP384(Provider provider) throws XMLSignatureException {
+        public SignatureMLDSA87ECDSAP384SHA512(Provider provider) throws XMLSignatureException {
             super(provider);
         }
 
         /** {@inheritDoc} */
         @Override
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_MLDSA87andECDSAP384;
+            return XMLSignature.ALGO_ID_SIGNATURE_MLDSA87_ECDSA_P384_SHA512;
         }
     }
 
-    public static class SignatureMLDSA87andECDSAP521 extends SignatureBaseComposite
+    public static class SignatureFalcon512ECDSAP256SHA256 extends SignatureBaseComposite
     {
         /**
-         * Constructor MLDSA87andECDSAP521
+         * Constructor Falcon512ECDSAP256SHA256
          *
          * @throws XMLSignatureException
          */
-        public SignatureMLDSA87andECDSAP521() throws XMLSignatureException {
+        public SignatureFalcon512ECDSAP256SHA256() throws XMLSignatureException {
             super();
         }
 
-        public SignatureMLDSA87andECDSAP521(Provider provider) throws XMLSignatureException {
+        public SignatureFalcon512ECDSAP256SHA256(Provider provider) throws XMLSignatureException {
             super(provider);
         }
 
         /** {@inheritDoc} */
         @Override
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_MLDSA87andECDSAP521;
+            return XMLSignature.ALGO_ID_SIGNATURE_FALCON512_ECDSA_P256_SHA256;
         }
     }
 
-    public static class SignatureFalcon512andECDSAP256 extends SignatureBaseComposite
-    {
-        /**
-         * Constructor Falcon512andECDSAP256
-         *
-         * @throws XMLSignatureException
-         */
-        public SignatureFalcon512andECDSAP256() throws XMLSignatureException {
-            super();
-        }
-
-        public SignatureFalcon512andECDSAP256(Provider provider) throws XMLSignatureException {
-            super(provider);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_Falcon512andECDSAP256;
-        }
-    }
-
-    public static class SignatureFalcon1024andECDSAP521 extends SignatureBaseComposite
-    {
-        /**
-         * Constructor Falcon1024andECDSAP521
-         *
-         * @throws XMLSignatureException
-         */
-        public SignatureFalcon1024andECDSAP521() throws XMLSignatureException {
-            super();
-        }
-
-        public SignatureFalcon1024andECDSAP521(Provider provider) throws XMLSignatureException {
-            super(provider);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_Falcon1024andECDSAP521;
-        }
-    }
 }

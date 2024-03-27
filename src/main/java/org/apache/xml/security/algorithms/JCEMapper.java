@@ -231,24 +231,16 @@ public class JCEMapper {
                 new Algorithm("SphincsPlus", "SphincsPlus", "Signature")
         );
         algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_MLDSA44andECDSAP256,
-                new Algorithm("MLDSA44andECDSAP256", "MLDSA44andECDSAP256", "Signature")
+                XMLSignature.ALGO_ID_SIGNATURE_MLDSA44_ECDSA_P256_SHA256,
+                new Algorithm("MLDSA44-ECDSA-P256-SHA256", "MLDSA44-ECDSA-P256-SHA256", "Signature")
         );
         algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_MLDSA87andECDSAP384,
-                new Algorithm("MLDSA87andECDSAP384", "MLDSA87andECDSAP384", "Signature")
+                XMLSignature.ALGO_ID_SIGNATURE_MLDSA87_ECDSA_P384_SHA512,
+                new Algorithm("MLDSA87-ECDSA-P384-SHA512", "MLDSA87-ECDSA-P384-SHA512", "Signature")
         );
         algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_MLDSA87andECDSAP521,
-                new Algorithm("MLDSA87andECDSAP521", "MLDSA87andECDSAP521", "Signature")
-        );
-        algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_Falcon512andECDSAP256,
-                new Algorithm("Falcon512andECDSAP256", "Falcon512andECDSAP256", "Signature")
-        );
-        algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_Falcon1024andECDSAP521,
-                new Algorithm("Falcon1024andECDSAP521", "Falcon1024andECDSAP521", "Signature")
+                XMLSignature.ALGO_ID_SIGNATURE_FALCON512_ECDSA_P256_SHA256,
+                new Algorithm("Falcon512-ECDSA-P256-SHA256", "Falcon512-ECDSA-P256-SHA256", "Signature")
         );
         algorithmsMap.put(
             XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5,
