@@ -51,12 +51,17 @@ import org.apache.xml.security.encryption.EncryptionMethod;
 import org.apache.xml.security.encryption.EncryptionProperties;
 import org.apache.xml.security.encryption.EncryptionProperty;
 import org.apache.xml.security.encryption.XMLCipher;
+import org.apache.xml.security.encryption.XMLCipherUtil;
 import org.apache.xml.security.encryption.keys.KeyInfoEnc;
 import org.apache.xml.security.encryption.params.ConcatKDFParams;
+import org.apache.xml.security.encryption.params.HKDFParams;
 import org.apache.xml.security.encryption.params.KeyAgreementParameters;
 import org.apache.xml.security.encryption.params.KeyDerivationParameters;
 import org.apache.xml.security.keys.KeyInfo;
+import org.apache.xml.security.keys.content.KeyName;
 import org.apache.xml.security.parser.XMLParserException;
+import org.apache.xml.security.signature.XMLSignature;
+import org.apache.xml.security.stax.ext.XMLSecurityConstants;
 import org.apache.xml.security.test.dom.TestUtils;
 import org.apache.xml.security.testutils.JDKTestUtils;
 import org.apache.xml.security.testutils.KeyTestUtils;
@@ -68,6 +73,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -296,14 +302,26 @@ class XMLCipherTest {
     void testAES128ElementEcdhEsKWCipher(KeyUtils.KeyType keyType) throws Exception {
         // Skip test for IBM JDK
         Assumptions.assumeTrue(haveISOPadding,
-                "Test testAES128ElementEcdhEsKWCipher for key ["+keyType+"] was skipped as necessary algorithms not available!" );
+                "Test testAES128ElementEcdhEsKWCipher for key [" + keyType + "] was skipped as necessary algorithms not available!");
         Assumptions.assumeTrue(JDKTestUtils.isAlgorithmSupported(keyType.getAlgorithm().getJceName(), true),
-                "Test testAES128ElementEcdhEsKWCipher for key ["+keyType+"] was skipped as necessary algorithms not available!" );
+                "Test testAES128ElementEcdhEsKWCipher for key [" + keyType + "] was skipped as necessary algorithms not available!");
 
         // init parameters encrypted key object
         String dataEncryptionAlgorithm = XMLCipher.AES_256_GCM;
         String keyWrapAlgorithm = XMLCipher.AES_128_KeyWrap;
         int transportKeyBitLength = 128;
+        String keyAgreementMethod;
+        switch (keyType) {
+            case X25519:
+                keyAgreementMethod = EncryptionConstants.ALGO_ID_KEYAGREEMENT_X25519;
+                break;
+            case X448:
+                keyAgreementMethod = EncryptionConstants.ALGO_ID_KEYAGREEMENT_X448;
+                break;
+            default:
+                keyAgreementMethod = EncryptionConstants.ALGO_ID_KEYAGREEMENT_ECDH_ES;
+                break;
+        }
 
         // prepare the test document
         Document d = document(); // source
@@ -332,11 +350,13 @@ class XMLCipherTest {
         cipherEncKey.setSecureValidation(true);
         // create key agreement parameters
         int keyBitLen = KeyUtils.getAESKeyBitSizeForWrapAlgorithm(keyWrapAlgorithm);
-        KeyDerivationParameters keyDerivationParameter = new ConcatKDFParams(keyBitLen,
-                MessageDigestAlgorithm.ALGO_ID_DIGEST_SHA256);
+        KeyDerivationParameters keyDerivationParameter = ConcatKDFParams
+                .createBuilder(keyBitLen, MessageDigestAlgorithm.ALGO_ID_DIGEST_SHA256)
+                .build();
+
         AlgorithmParameterSpec parameterSpec = new KeyAgreementParameters(
                 KeyAgreementParameters.ActorType.ORIGINATOR,
-                EncryptionConstants.ALGO_ID_KEYAGREEMENT_ECDH_ES,
+                keyAgreementMethod,
                 keyDerivationParameter);
         // encrypt transport key with KeyAgreement
         EncryptedKey encryptedKey = cipherEncKey.encryptKey(d, ephemeralSymmetricKey, parameterSpec, null);
@@ -369,6 +389,231 @@ class XMLCipherTest {
 
         target = toString(dd);
         assertEquals(source, target);
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = KeyUtils.KeyType.class, mode = EnumSource.Mode.INCLUDE,
+            names = {"SECP256R1", "SECP384R1", "SECP521R1", "X25519", "X448"})
+    void testAES128ElementEcdhEsKWCipherHKDF(KeyUtils.KeyType keyType) throws Exception {
+        // Skip test for IBM JDK
+        Assumptions.assumeTrue(haveISOPadding,
+                "Test testAES128ElementEcdhEsKWCipher for key [" + keyType + "] was skipped as necessary algorithms not available!");
+        Assumptions.assumeTrue(JDKTestUtils.isAlgorithmSupported(keyType.getAlgorithm().getJceName(), true),
+                "Test testAES128ElementEcdhEsKWCipher for key [" + keyType + "] was skipped as necessary algorithms not available!");
+
+        // init parameters encrypted key object
+        String dataEncryptionAlgorithm = XMLCipher.AES_256_GCM;
+        String keyWrapAlgorithm = XMLCipher.AES_128_KeyWrap;
+        int transportKeyBitLength = 128;
+        String keyAgreementMethod;
+        switch (keyType) {
+            case X25519:
+                keyAgreementMethod = EncryptionConstants.ALGO_ID_KEYAGREEMENT_X25519;
+                break;
+            case X448:
+                keyAgreementMethod = EncryptionConstants.ALGO_ID_KEYAGREEMENT_X448;
+                break;
+            default:
+                keyAgreementMethod = EncryptionConstants.ALGO_ID_KEYAGREEMENT_ECDH_ES;
+                break;
+        }
+
+        // prepare the test document
+        Document d = document(); // source
+        Document ed = null;
+        Document dd = null;
+        Element e = (Element) d.getElementsByTagName(element()).item(index());
+        Element ee = null;
+        String source = null;
+        String target = null;
+
+        source = toString(d);
+
+        // Generate test recipient key pair
+        KeyPair recipientKeyPair = KeyTestUtils.generateKeyPair(keyType);
+        PrivateKey privRecipientKey = recipientKeyPair.getPrivate();
+        PublicKey pubRecipientKey = recipientKeyPair.getPublic();
+
+
+        // Generate a traffic key
+        KeyGenerator keygen = KeyGenerator.getInstance("AES");
+        keygen.init(transportKeyBitLength);
+        Key ephemeralSymmetricKey = keygen.generateKey();
+
+        XMLCipher cipherEncKey = XMLCipher.getInstance(keyWrapAlgorithm);
+        cipherEncKey.init(XMLCipher.WRAP_MODE, pubRecipientKey);
+        cipherEncKey.setSecureValidation(true);
+        // create key agreement parameters
+        int keyBitLen = KeyUtils.getAESKeyBitSizeForWrapAlgorithm(keyWrapAlgorithm);
+        HKDFParams keyDerivationParameter = HKDFParams.createBuilder(keyBitLen,
+                XMLSignature.ALGO_ID_MAC_HMAC_SHA256)
+                .salt(SecureRandom.getSeed(32))
+                .info("test-info-data".getBytes(StandardCharsets.UTF_8))
+                .build();
+
+        AlgorithmParameterSpec parameterSpec = new KeyAgreementParameters(
+                KeyAgreementParameters.ActorType.ORIGINATOR,
+                keyAgreementMethod,
+                keyDerivationParameter);
+        // encrypt transport key with KeyAgreement
+        EncryptedKey encryptedKey = cipherEncKey.encryptKey(d, ephemeralSymmetricKey, parameterSpec, null);
+        assertEquals(1, ((KeyInfoEnc) encryptedKey.getKeyInfo()).lengthAgreementMethod());
+        KeyName keyName = new KeyName(d, "test-key-name");
+        ((KeyInfoEnc) encryptedKey.getKeyInfo()).itemAgreementMethod(0).getRecipientKeyInfo().add(keyName);
+
+
+        // encrypt data
+        XMLCipher cipherEncData = XMLCipher.getInstance(dataEncryptionAlgorithm);
+        cipherEncData.init(XMLCipher.ENCRYPT_MODE, ephemeralSymmetricKey);
+        EncryptedData builder = cipherEncData.getEncryptedData();
+        // add encrypted key to key info in encrypted data
+        KeyInfo builderKeyInfo = builder.getKeyInfo();
+        if (builderKeyInfo == null) {
+            builderKeyInfo = new KeyInfo(d);
+            builder.setKeyInfo(builderKeyInfo);
+        }
+        builderKeyInfo.add(encryptedKey);
+
+        ed = cipherEncData.doFinal(d, e);
+
+        org.apache.xml.security.test.javax.xml.crypto.dsig.TestUtils.validateSecurityOrEncryptionElement(ed.getDocumentElement());
+
+        Files.write(Paths.get("target", "test-ka-dh-hkdf-" + keyType.name() + ".xml"), toString(ed).getBytes());
+
+        //decrypt
+        ee = (Element) ed.getElementsByTagName("xenc:EncryptedData").item(0);
+        XMLCipher cipherDecData = XMLCipher.getInstance(dataEncryptionAlgorithm);
+        cipherDecData.init(XMLCipher.DECRYPT_MODE, null);
+        cipherDecData.setKEK(privRecipientKey);
+        cipherDecData.setSecureValidation(true);
+        dd = cipherDecData.doFinal(ed, ee);
+
+        target = toString(dd);
+        assertNotNull(target);
+        assertEquals(source, target);
+    }
+
+    /**
+     * The http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p identifier defines the
+     * mask generation function as the fixed value of MGF1 with SHA1. In this case
+     * the optional xenc11:MGF element of the xenc:EncryptionMethod element
+     * MUST NOT be provided. For the http://www.w3.org/2009/xmlenc11#rsa-oaep
+     * identifier, the mask generation function must be defined by the xenc11:MGF
+     * element.
+     */
+    @ParameterizedTest
+    @CsvSource({
+            "http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p,,0",
+            "http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p,'',0",
+            "http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p, http://www.w3.org/2009/xmlenc11#mgf1sha1,0",
+            "http://www.w3.org/2009/xmlenc11#rsa-oaep, http://www.w3.org/2009/xmlenc11#mgf1sha1,1",
+            "http://www.w3.org/2009/xmlenc11#rsa-oaep, http://www.w3.org/2009/xmlenc11#mgf1sha256,1",
+            "http://www.w3.org/2009/xmlenc11#rsa-oaep, http://www.w3.org/2009/xmlenc11#mgf1sha224,1",
+            "http://www.w3.org/2009/xmlenc11#rsa-oaep, http://www.w3.org/2009/xmlenc11#mgf1sha384,1",
+            "http://www.w3.org/2009/xmlenc11#rsa-oaep, http://www.w3.org/2009/xmlenc11#mgf1sha512,1",
+    })
+    void testAES128ElementRsaOaepKWCipher(String keyWrapAlgorithmURI, String mgf1URI, int mgfElementCount) throws Exception {
+        // Skip test for IBM JDK
+        Assumptions.assumeTrue(haveISOPadding,
+                "Test testAES128ElementRsaOaepKWCipher was skipped as necessary algorithms not available!" );
+        // init parameters encrypted key object
+        int transportKeyBitLength = 128;
+
+        // prepare the test document
+        Document d = TestUtils.newDocument(); // source
+
+        // Generate test recipient key pair
+        KeyPairGenerator rsaKeygen = KeyPairGenerator.getInstance("RSA");
+        KeyPair kp = rsaKeygen.generateKeyPair();
+        PublicKey pub = kp.getPublic();
+
+        // Generate a traffic key
+        KeyGenerator keygen = KeyGenerator.getInstance("AES");
+        keygen.init(transportKeyBitLength);
+        Key ephemeralSymmetricKey = keygen.generateKey();
+
+        XMLCipher cipherEncKey = XMLCipher.getInstance(keyWrapAlgorithmURI);
+        cipherEncKey.init(XMLCipher.WRAP_MODE, pub);
+        cipherEncKey.setSecureValidation(true);
+        // encrypt transport key with KeyAgreement
+        EncryptedKey encryptedKey =  cipherEncKey.encryptKey(d, ephemeralSymmetricKey,mgf1URI,null);
+        Element enckeyDoc = cipherEncKey.martial(encryptedKey);
+
+        NodeList mfgElements = enckeyDoc.getElementsByTagNameNS(XMLSecurityConstants.NS_XMLENC11, EncryptionConstants._TAG_MGF);
+        assertEquals(mgfElementCount, mfgElements.getLength());
+        assertEquals(keyWrapAlgorithmURI, encryptedKey.getEncryptionMethod().getAlgorithm());
+        if (mgfElementCount > 0) {
+            assertEquals(mgf1URI, encryptedKey.getEncryptionMethod().getMGFAlgorithm());
+        }
+    }
+
+    /**
+     * Test decryption using key agreement method processing and manual key derivation
+     * where KeyAgreementMethod is present in EncryptedKey, but it is not used for decryption
+     * because decryption key is provided manually. The test ensures legacy behavior is preserved
+     * where some implementations implemented it own key agreement method processing
+     * and XMLCipher is used just for key unwrapping.
+     *
+     * <p/>
+     * @throws Exception Thrown when there is any problem in signing or verification
+     */
+    @Test
+    void testDecryptionSkipKeyAgreementMethodProcessing() throws Exception {
+
+        // init parameters encrypted key object
+        String keyWrapAlgorithm = XMLCipher.AES_128_KeyWrap;
+        int transportKeyBitLength = KeyUtils.getAESKeyBitSizeForWrapAlgorithm(keyWrapAlgorithm);
+
+        // Generate test recipient key pair
+        KeyPair recipientKeyPair = KeyTestUtils.generateKeyPair(KeyUtils.KeyType.SECP256R1);
+        PrivateKey privRecipientKey = recipientKeyPair.getPrivate();
+        PublicKey pubRecipientKey = recipientKeyPair.getPublic();
+
+        // Generate a traffic key
+        KeyGenerator keygen = KeyGenerator.getInstance("AES");
+        keygen.init(transportKeyBitLength);
+        Key ephemeralSymmetricKey = keygen.generateKey();
+
+        XMLCipher cipherEncKey = XMLCipher.getInstance(keyWrapAlgorithm);
+        cipherEncKey.init(XMLCipher.WRAP_MODE, pubRecipientKey);
+        cipherEncKey.setSecureValidation(true);
+        // create key agreement parameters
+        KeyDerivationParameters keyDerivationParameter = ConcatKDFParams
+                .createBuilder(transportKeyBitLength, MessageDigestAlgorithm.ALGO_ID_DIGEST_SHA256)
+                .build();
+        KeyAgreementParameters parameterSpec = new KeyAgreementParameters(
+                KeyAgreementParameters.ActorType.ORIGINATOR,
+                EncryptionConstants.ALGO_ID_KEYAGREEMENT_ECDH_ES,
+                keyDerivationParameter);
+
+        // Generate EncryptedKey with KeyAgreementMethod
+        Document doc = TestUtils.newDocument();
+        EncryptedKey encryptedKey = cipherEncKey.encryptKey(doc, ephemeralSymmetricKey, parameterSpec, null);
+        // assert that KeyAgreementMethod is present
+        assertEquals(1, ((KeyInfoEnc) encryptedKey.getKeyInfo()).lengthAgreementMethod());
+
+        // decrypt EncryptedKey key handled by xmlsec.
+        XMLCipher kwCipherWithKeyAgreement = XMLCipher.getInstance();
+        kwCipherWithKeyAgreement.init(XMLCipher.UNWRAP_MODE, privRecipientKey);
+        Key symmetricKeyWithKeyAgreement = kwCipherWithKeyAgreement.decryptKey(
+                encryptedKey, encryptedKey.getEncryptionMethod().getAlgorithm()
+        );
+        assertEquals(ephemeralSymmetricKey, symmetricKeyWithKeyAgreement);
+
+        // decrypt EncryptedKey key manually (skip KeyAgreementMethod processing)
+        // derive encrypted key manually
+        KeyAgreementParameters params = XMLCipherUtil.constructRecipientKeyAgreementParameters(keyWrapAlgorithm,
+                ((KeyInfoEnc) encryptedKey.getKeyInfo()).itemAgreementMethod(0), privRecipientKey);
+        Key keyWrappingKey = KeyUtils.aesWrapKeyWithDHGeneratedKey(params);
+
+        // use manually derived key to decrypt EncryptedKey
+        XMLCipher kwCipherManually = XMLCipher.getInstance();
+        kwCipherManually.init(XMLCipher.UNWRAP_MODE, keyWrappingKey);
+
+        Key symmetricKeyManualDecryption = kwCipherManually.decryptKey(
+                encryptedKey, encryptedKey.getEncryptionMethod().getAlgorithm()
+        );
+        assertEquals(ephemeralSymmetricKey, symmetricKeyManualDecryption);
     }
 
     /**
