@@ -178,7 +178,7 @@ public abstract class SignatureBaseDilithium extends SignatureAlgorithmSpi {
         /** {@inheritDoc} */
         @Override
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_DILITHIUM;
+            return XMLSignature.ALGO_ID_SIGNATURE_ML_DSA;
         }
     }
 }
