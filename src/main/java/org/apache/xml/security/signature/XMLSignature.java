@@ -229,12 +229,13 @@ public final class XMLSignature extends SignatureElementProxy {
             Constants.XML_DSIG_NS_MORE_07_05 + "rsa-pss";
 
     /** Post-quantum signatures */
-    public static final String ALGO_ID_SIGNATURE_DILITHIUM = Constants.XML_DSIG_PQC + "dilithium";
+    public static final String ALGO_ID_SIGNATURE_ML_DSA_44 = Constants.XML_DSIG_PQC + "ml-dsa-44";
+    public static final String ALGO_ID_SIGNATURE_ML_DSA_65 = Constants.XML_DSIG_PQC + "ml-dsa-65";
+    public static final String ALGO_ID_SIGNATURE_ML_DSA_87 = Constants.XML_DSIG_PQC + "ml-dsa-87";
     public static final String ALGO_ID_SIGNATURE_FALCON = Constants.XML_DSIG_PQC + "falcon";
     public static final String ALGO_ID_SIGNATURE_SPHINCSPLUS = Constants.XML_DSIG_PQC + "sphincsplus";
     public static final String ALGO_ID_SIGNATURE_MLDSA44_ECDSA_P256_SHA256 = Constants.XML_DSIG_PQC_COMPOSITES + "mldsa44-ecdsa-p256-sha256";
-    public static final String ALGO_ID_SIGNATURE_MLDSA87_ECDSA_P384_SHA512 = Constants.XML_DSIG_PQC_COMPOSITES + "mldsa87-ecdsa-p384-sha512";
-    public static final String ALGO_ID_SIGNATURE_FALCON512_ECDSA_P256_SHA256 = Constants.XML_DSIG_PQC_COMPOSITES + "falcon512-ecdsa-p256-sha256";
+    public static final String ALGO_ID_SIGNATURE_MLDSA87_ECDSA_P384_SHA384 = Constants.XML_DSIG_PQC_COMPOSITES + "mldsa87-ecdsa-p384-sha384";
 
     private static final Logger LOG = System.getLogger(XMLSignature.class.getName());
 

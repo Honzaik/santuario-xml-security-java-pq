@@ -510,7 +510,13 @@ public class SignatureAlgorithm extends Algorithm {
                 XMLSignature.ALGO_ID_SIGNATURE_EDDSA_ED448, SignatureEDDSA.SignatureEd448.class
         );
         algorithmHash.put(
-                XMLSignature.ALGO_ID_SIGNATURE_DILITHIUM, SignatureBaseDilithium.SignatureDilithium.class
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_44, SignatureBaseMLDSA.SignatureMLDSA44.class
+        );
+        algorithmHash.put(
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_65, SignatureBaseMLDSA.SignatureMLDSA65.class
+        );
+        algorithmHash.put(
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_87, SignatureBaseMLDSA.SignatureMLDSA87.class
         );
         algorithmHash.put(
                 XMLSignature.ALGO_ID_SIGNATURE_FALCON, SignatureBaseFalcon.SignatureFalcon.class
@@ -522,10 +528,7 @@ public class SignatureAlgorithm extends Algorithm {
                 XMLSignature.ALGO_ID_SIGNATURE_MLDSA44_ECDSA_P256_SHA256, SignatureBaseComposite.SignatureMLDSA44ECDSAP256SHA256.class
         );
         algorithmHash.put(
-                XMLSignature.ALGO_ID_SIGNATURE_MLDSA87_ECDSA_P384_SHA512, SignatureBaseComposite.SignatureMLDSA87ECDSAP384SHA512.class
-        );
-        algorithmHash.put(
-                XMLSignature.ALGO_ID_SIGNATURE_FALCON512_ECDSA_P256_SHA256, SignatureBaseComposite.SignatureFalcon512ECDSAP256SHA256.class
+                XMLSignature.ALGO_ID_SIGNATURE_MLDSA87_ECDSA_P384_SHA384, SignatureBaseComposite.SignatureMLDSA87ECDSAP384SHA384.class
         );
         algorithmHash.put(
             XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5, IntegrityHmac.IntegrityHmacMD5.class

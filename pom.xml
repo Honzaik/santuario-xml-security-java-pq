@@ -27,7 +27,7 @@
 
     <groupId>org.apache.santuario</groupId>
     <artifactId>xmlsec</artifactId>
-    <version>4.0.99-PQ</version>
+    <version>4.0.99</version>
     <packaging>bundle</packaging>
     
     <name>Apache XML Security for Java</name>

@@ -28,8 +28,8 @@ import java.security.spec.AlgorithmParameterSpec;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 
-public abstract class SignatureBaseDilithium extends SignatureAlgorithmSpi {
-    private static final Logger LOG = System.getLogger(SignatureBaseDilithium.class.getName());
+public abstract class SignatureBaseMLDSA extends SignatureAlgorithmSpi {
+    private static final Logger LOG = System.getLogger(SignatureBaseMLDSA.class.getName());
 
     /** Field algorithm */
     private final Signature signatureAlgorithm;
@@ -39,13 +39,13 @@ public abstract class SignatureBaseDilithium extends SignatureAlgorithmSpi {
      *
      * @throws XMLSignatureException
      */
-    public SignatureBaseDilithium() throws XMLSignatureException {
+    public SignatureBaseMLDSA() throws XMLSignatureException {
         this(null);
     }
 
-    public SignatureBaseDilithium(Provider provider) throws XMLSignatureException {
+    public SignatureBaseMLDSA(Provider provider) throws XMLSignatureException {
         String algorithmID = JCEMapper.translateURItoJCEID(this.engineGetURI());
-        LOG.log(Level.DEBUG, "Created SignatureRSA using {}", algorithmID);
+        LOG.log(Level.DEBUG, "Created SignatureMLDSA using {}", algorithmID);
 
         try {
             if (provider == null) {
@@ -161,24 +161,69 @@ public abstract class SignatureBaseDilithium extends SignatureAlgorithmSpi {
         throw new XMLSignatureException("algorithms.CannotUseAlgorithmParameterSpecOnDilithium");
     }
 
-    public static class SignatureDilithium extends SignatureBaseDilithium {
+    public static class SignatureMLDSA44 extends SignatureBaseMLDSA
+    {
         /**
          * Constructor SignatureDilithium
          *
          * @throws XMLSignatureException
          */
-        public SignatureDilithium() throws XMLSignatureException {
+        public SignatureMLDSA44() throws XMLSignatureException {
             super();
         }
 
-        public SignatureDilithium(Provider provider) throws XMLSignatureException {
+        public SignatureMLDSA44(Provider provider) throws XMLSignatureException {
             super(provider);
         }
 
         /** {@inheritDoc} */
         @Override
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_ML_DSA;
+            return XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_44;
+        }
+    }
+
+    public static class SignatureMLDSA65 extends SignatureBaseMLDSA
+    {
+        /**
+         * Constructor SignatureDilithium
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureMLDSA65() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureMLDSA65(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_65;
+        }
+    }
+
+    public static class SignatureMLDSA87 extends SignatureBaseMLDSA
+    {
+        /**
+         * Constructor SignatureDilithium
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureMLDSA87() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureMLDSA87(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_87;
         }
     }
 }

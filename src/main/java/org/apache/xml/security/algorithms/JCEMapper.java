@@ -235,8 +235,16 @@ public class JCEMapper {
         );
         /** Post-quantum signatures */
         algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_DILITHIUM,
-                new Algorithm("Dilithium", "Dilithium", "Signature")
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_44,
+                new Algorithm("ML-DSA-44", "ML-DSA-44", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_65,
+                new Algorithm("ML-DSA-65", "ML-DSA-65", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_87,
+                new Algorithm("ML-DSA-87", "ML-DSA-87", "Signature")
         );
         algorithmsMap.put(
                 XMLSignature.ALGO_ID_SIGNATURE_FALCON,
@@ -251,12 +259,8 @@ public class JCEMapper {
                 new Algorithm("MLDSA44-ECDSA-P256-SHA256", "MLDSA44-ECDSA-P256-SHA256", "Signature")
         );
         algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_MLDSA87_ECDSA_P384_SHA512,
-                new Algorithm("MLDSA87-ECDSA-P384-SHA512", "MLDSA87-ECDSA-P384-SHA512", "Signature")
-        );
-        algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_FALCON512_ECDSA_P256_SHA256,
-                new Algorithm("Falcon512-ECDSA-P256-SHA256", "Falcon512-ECDSA-P256-SHA256", "Signature")
+                XMLSignature.ALGO_ID_SIGNATURE_MLDSA87_ECDSA_P384_SHA384,
+                new Algorithm("MLDSA87-ECDSA-P384-SHA384", "MLDSA87-ECDSA-P384-SHA384", "Signature")
         );
         algorithmsMap.put(
             XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5,
