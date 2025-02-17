@@ -179,14 +179,36 @@ public abstract class SignatureBaseComposite extends SignatureAlgorithmSpi {
         /** {@inheritDoc} */
         @Override
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_MLDSA44_ECDSA_P256_SHA256;
+            return XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_44_ECDSA_P256_SHA256;
+        }
+    }
+
+    public static class SignatureMLDSA65ECDSAP384SHA384 extends SignatureBaseComposite
+    {
+        /**
+         * Constructor MLDSA65ECDSAP384SHA512
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureMLDSA65ECDSAP384SHA384() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureMLDSA65ECDSAP384SHA384(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_65_ECDSA_P384_SHA384;
         }
     }
 
     public static class SignatureMLDSA87ECDSAP384SHA384 extends SignatureBaseComposite
     {
         /**
-         * Constructor MLDSA87ECDSAP384SHA512
+         * Constructor MLDSA87ECDSAP384SHA384
          *
          * @throws XMLSignatureException
          */
@@ -201,7 +223,73 @@ public abstract class SignatureBaseComposite extends SignatureAlgorithmSpi {
         /** {@inheritDoc} */
         @Override
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_MLDSA87_ECDSA_P384_SHA384;
+            return XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_87_ECDSA_P384_SHA384;
+        }
+    }
+
+    public static class SignatureHashMLDSA44ECDSAP256SHA256 extends SignatureBaseComposite
+    {
+        /**
+         * Constructor HashMLDSA44ECDSAP256SHA256
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureHashMLDSA44ECDSAP256SHA256() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureHashMLDSA44ECDSAP256SHA256(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_HASH_ML_DSA_44_ECDSA_P256_SHA256;
+        }
+    }
+
+    public static class SignatureHashMLDSA65ECDSAP384SHA512 extends SignatureBaseComposite
+    {
+        /**
+         * Constructor HashMLDSA65ECDSAP384SHA512
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureHashMLDSA65ECDSAP384SHA512() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureHashMLDSA65ECDSAP384SHA512(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_HASH_ML_DSA_65_ECDSA_P384_SHA512;
+        }
+    }
+
+    public static class SignatureHashMLDSA87ECDSAP384SHA512 extends SignatureBaseComposite
+    {
+        /**
+         * Constructor HashMLDSA87ECDSAP384SHA512
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureHashMLDSA87ECDSAP384SHA512() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureHashMLDSA87ECDSAP384SHA512(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_HASH_ML_DSA_87_ECDSA_P384_SHA512;
         }
     }
 

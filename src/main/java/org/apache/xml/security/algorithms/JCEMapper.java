@@ -255,12 +255,28 @@ public class JCEMapper {
                 new Algorithm("SphincsPlus", "SphincsPlus", "Signature")
         );
         algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_MLDSA44_ECDSA_P256_SHA256,
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_44_ECDSA_P256_SHA256,
                 new Algorithm("MLDSA44-ECDSA-P256-SHA256", "MLDSA44-ECDSA-P256-SHA256", "Signature")
         );
         algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_MLDSA87_ECDSA_P384_SHA384,
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_65_ECDSA_P384_SHA384,
+                new Algorithm("MLDSA65-ECDSA-P384-SHA384", "MLDSA65-ECDSA-P384-SHA384", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_87_ECDSA_P384_SHA384,
                 new Algorithm("MLDSA87-ECDSA-P384-SHA384", "MLDSA87-ECDSA-P384-SHA384", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_HASH_ML_DSA_44_ECDSA_P256_SHA256,
+                new Algorithm("HashMLDSA44-ECDSA-P256-SHA256", "HashMLDSA44-ECDSA-P256-SHA256", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_HASH_ML_DSA_65_ECDSA_P384_SHA512,
+                new Algorithm("HashMLDSA65-ECDSA-P384-SHA512", "HashMLDSA65-ECDSA-P384-SHA512", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_HASH_ML_DSA_87_ECDSA_P384_SHA512,
+                new Algorithm("HashMLDSA87-ECDSA-P384-SHA512", "HashMLDSA87-ECDSA-P384-SHA512", "Signature")
         );
         algorithmsMap.put(
             XMLSignature.ALGO_ID_MAC_HMAC_NOT_RECOMMENDED_MD5,
