@@ -232,11 +232,23 @@ public final class XMLSignature extends SignatureElementProxy {
     public static final String ALGO_ID_SIGNATURE_ML_DSA_44 = Constants.XML_DSIG_PQC + "ml-dsa-44";
     public static final String ALGO_ID_SIGNATURE_ML_DSA_65 = Constants.XML_DSIG_PQC + "ml-dsa-65";
     public static final String ALGO_ID_SIGNATURE_ML_DSA_87 = Constants.XML_DSIG_PQC + "ml-dsa-87";
+
     public static final String ALGO_ID_SIGNATURE_FALCON = Constants.XML_DSIG_PQC + "falcon";
-    public static final String ALGO_ID_SIGNATURE_SPHINCSPLUS = Constants.XML_DSIG_PQC + "sphincsplus";
+
+    public static final String ALGO_ID_SIGNATURE_SLH_DSA_SHA2_128S = Constants.XML_DSIG_PQC + "slh-dsa-sha2-128s";
+    public static final String ALGO_ID_SIGNATURE_SLH_DSA_SHA2_128F = Constants.XML_DSIG_PQC + "slh-dsa-sha2-128f";
+    public static final String ALGO_ID_SIGNATURE_SLH_DSA_SHA2_256S = Constants.XML_DSIG_PQC + "slh-dsa-sha2-256s";
+    public static final String ALGO_ID_SIGNATURE_SLH_DSA_SHA2_256F = Constants.XML_DSIG_PQC + "slh-dsa-sha2-256f";
+
+    public static final String ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_128S = Constants.XML_DSIG_PQC + "slh-dsa-shake-128s";
+    public static final String ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_128F = Constants.XML_DSIG_PQC + "slh-dsa-shake-128f";
+    public static final String ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_256S = Constants.XML_DSIG_PQC + "slh-dsa-shake-256s";
+    public static final String ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_256F = Constants.XML_DSIG_PQC + "slh-dsa-shake-256f";
+
     public static final String ALGO_ID_SIGNATURE_ML_DSA_44_ECDSA_P256_SHA256 = Constants.XML_DSIG_PQC_COMPOSITES + "ml-dsa-44-ecdsa-p256-sha256";
     public static final String ALGO_ID_SIGNATURE_ML_DSA_65_ECDSA_P384_SHA384 = Constants.XML_DSIG_PQC_COMPOSITES + "ml-dsa-65-ecdsa-p384-sha384";
     public static final String ALGO_ID_SIGNATURE_ML_DSA_87_ECDSA_P384_SHA384 = Constants.XML_DSIG_PQC_COMPOSITES + "ml-dsa-87-ecdsa-p384-sha384";
+
     public static final String ALGO_ID_SIGNATURE_HASH_ML_DSA_44_ECDSA_P256_SHA256 = Constants.XML_DSIG_PQC_COMPOSITES + "hash-ml-dsa-44-ecdsa-p256-sha256";
     public static final String ALGO_ID_SIGNATURE_HASH_ML_DSA_65_ECDSA_P384_SHA512 = Constants.XML_DSIG_PQC_COMPOSITES + "hash-ml-dsa-65-ecdsa-p384-sha512";
     public static final String ALGO_ID_SIGNATURE_HASH_ML_DSA_87_ECDSA_P384_SHA512 = Constants.XML_DSIG_PQC_COMPOSITES + "hash-ml-dsa-87-ecdsa-p384-sha512";

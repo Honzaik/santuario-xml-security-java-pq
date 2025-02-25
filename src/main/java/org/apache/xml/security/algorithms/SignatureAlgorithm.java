@@ -522,7 +522,28 @@ public class SignatureAlgorithm extends Algorithm {
                 XMLSignature.ALGO_ID_SIGNATURE_FALCON, SignatureBaseFalcon.SignatureFalcon.class
         );
         algorithmHash.put(
-                XMLSignature.ALGO_ID_SIGNATURE_SPHINCSPLUS, SignatureBaseSphincsPlus.SignatureSphincsPlus.class
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHA2_128S, SignatureBaseSLHDSA.SignatureSLHDSASHA2128S.class
+        );
+        algorithmHash.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHA2_128F, SignatureBaseSLHDSA.SignatureSLHDSASHA2128F.class
+        );
+        algorithmHash.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHA2_256S, SignatureBaseSLHDSA.SignatureSLHDSASHA2256S.class
+        );
+        algorithmHash.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHA2_256F, SignatureBaseSLHDSA.SignatureSLHDSASHA2256F.class
+        );
+        algorithmHash.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_128S, SignatureBaseSLHDSA.SignatureSLHDSASHAKE128S.class
+        );
+        algorithmHash.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_128F, SignatureBaseSLHDSA.SignatureSLHDSASHAKE128F.class
+        );
+        algorithmHash.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_256S, SignatureBaseSLHDSA.SignatureSLHDSASHAKE256S.class
+        );
+        algorithmHash.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_256F, SignatureBaseSLHDSA.SignatureSLHDSASHAKE256F.class
         );
         algorithmHash.put(
                 XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_44_ECDSA_P256_SHA256, SignatureBaseComposite.SignatureMLDSA44ECDSAP256SHA256.class

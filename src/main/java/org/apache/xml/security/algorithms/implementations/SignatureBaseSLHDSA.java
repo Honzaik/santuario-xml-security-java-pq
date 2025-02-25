@@ -28,24 +28,24 @@ import java.lang.System.Logger.Level;
 import java.security.*;
 import java.security.spec.AlgorithmParameterSpec;
 
-public abstract class SignatureBaseSphincsPlus extends SignatureAlgorithmSpi {
-    private static final Logger LOG = System.getLogger(SignatureBaseSphincsPlus.class.getName());
+public abstract class SignatureBaseSLHDSA extends SignatureAlgorithmSpi {
+    private static final Logger LOG = System.getLogger(SignatureBaseSLHDSA.class.getName());
 
     /** Field algorithm */
     private final Signature signatureAlgorithm;
 
     /**
-     * Constructor SignatureRSA
+     * Constructor SignatureSLHDSA
      *
      * @throws XMLSignatureException
      */
-    public SignatureBaseSphincsPlus() throws XMLSignatureException {
+    public SignatureBaseSLHDSA() throws XMLSignatureException {
         this(null);
     }
 
-    public SignatureBaseSphincsPlus(Provider provider) throws XMLSignatureException {
+    public SignatureBaseSLHDSA(Provider provider) throws XMLSignatureException {
         String algorithmID = JCEMapper.translateURItoJCEID(this.engineGetURI());
-        LOG.log(Level.DEBUG, "Created SignatureSphincsPlus using {}", algorithmID);
+        LOG.log(Level.DEBUG, "Created SignatureSLHDSA using {}", algorithmID);
 
         try {
             if (provider == null) {
@@ -161,24 +161,179 @@ public abstract class SignatureBaseSphincsPlus extends SignatureAlgorithmSpi {
         throw new XMLSignatureException("algorithms.CannotUseAlgorithmParameterSpecOnSphincsPlus");
     }
 
-    public static class SignatureSphincsPlus extends SignatureBaseSphincsPlus {
+    public static class SignatureSLHDSASHA2128S extends SignatureBaseSLHDSA
+    {
         /**
-         * Constructor SignatureSphincsPlus
+         * Constructor SignatureSLHDSASHA2128S
          *
          * @throws XMLSignatureException
          */
-        public SignatureSphincsPlus() throws XMLSignatureException {
+        public SignatureSLHDSASHA2128S() throws XMLSignatureException {
             super();
         }
 
-        public SignatureSphincsPlus(Provider provider) throws XMLSignatureException {
+        public SignatureSLHDSASHA2128S(Provider provider) throws XMLSignatureException {
             super(provider);
         }
 
         /** {@inheritDoc} */
         @Override
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_SPHINCSPLUS;
+            return XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHA2_128S;
+        }
+    }
+
+    public static class SignatureSLHDSASHA2128F extends SignatureBaseSLHDSA
+    {
+        /**
+         * Constructor SignatureSLHDSASHA2128F
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureSLHDSASHA2128F() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureSLHDSASHA2128F(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHA2_128F;
+        }
+    }
+
+    public static class SignatureSLHDSASHA2256S extends SignatureBaseSLHDSA
+    {
+        /**
+         * Constructor SignatureSLHDSASHA2256S
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureSLHDSASHA2256S() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureSLHDSASHA2256S(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHA2_256S;
+        }
+    }
+
+    public static class SignatureSLHDSASHA2256F extends SignatureBaseSLHDSA
+    {
+        /**
+         * Constructor SignatureSLHDSASHA2256F
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureSLHDSASHA2256F() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureSLHDSASHA2256F(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHA2_256F;
+        }
+    }
+
+    public static class SignatureSLHDSASHAKE128S extends SignatureBaseSLHDSA
+    {
+        /**
+         * Constructor SignatureSLHDSASHAKE128S
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureSLHDSASHAKE128S() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureSLHDSASHAKE128S(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_128S;
+        }
+    }
+
+    public static class SignatureSLHDSASHAKE128F extends SignatureBaseSLHDSA
+    {
+        /**
+         * Constructor SignatureSLHDSASHAKE128F
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureSLHDSASHAKE128F() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureSLHDSASHAKE128F(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_128F;
+        }
+    }
+
+    public static class SignatureSLHDSASHAKE256S extends SignatureBaseSLHDSA
+    {
+        /**
+         * Constructor SignatureSLHDSASHAKE256S
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureSLHDSASHAKE256S() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureSLHDSASHAKE256S(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_256S;
+        }
+    }
+
+    public static class SignatureSLHDSASHAKE256F extends SignatureBaseSLHDSA
+    {
+        /**
+         * Constructor SignatureSLHDSASHAKE256F
+         *
+         * @throws XMLSignatureException
+         */
+        public SignatureSLHDSASHAKE256F() throws XMLSignatureException {
+            super();
+        }
+
+        public SignatureSLHDSASHAKE256F(Provider provider) throws XMLSignatureException {
+            super(provider);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public String engineGetURI() {
+            return XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_256F;
         }
     }
 }

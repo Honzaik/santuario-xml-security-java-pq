@@ -35,7 +35,7 @@ public abstract class SignatureBaseMLDSA extends SignatureAlgorithmSpi {
     private final Signature signatureAlgorithm;
 
     /**
-     * Constructor SignatureRSA
+     * Constructor SignatureMLDSA
      *
      * @throws XMLSignatureException
      */

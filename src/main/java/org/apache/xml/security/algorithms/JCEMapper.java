@@ -108,6 +108,14 @@ public class JCEMapper {
             MessageDigestAlgorithm.ALGO_ID_DIGEST_SHA3_512,
             new Algorithm("", "SHA3-512", "MessageDigest")
         );
+        algorithmsMap.put(
+                MessageDigestAlgorithm.ALGO_ID_DIGEST_SHAKE128,
+                new Algorithm("", "SHAKE128", "MessageDigest")
+        );
+        algorithmsMap.put(
+                MessageDigestAlgorithm.ALGO_ID_DIGEST_SHAKE256,
+                new Algorithm("", "SHAKE256", "MessageDigest")
+        );
         // Signature algorithms
         algorithmsMap.put(
             XMLSignature.ALGO_ID_SIGNATURE_DSA,
@@ -251,8 +259,36 @@ public class JCEMapper {
                 new Algorithm("Falcon", "Falcon", "Signature")
         );
         algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_SPHINCSPLUS,
-                new Algorithm("SphincsPlus", "SphincsPlus", "Signature")
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHA2_128F,
+                new Algorithm("SLH-DSA-SHA2-128F", "SLH-DSA-SHA2-128F", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHA2_128S,
+                new Algorithm("SLH-DSA-SHA2-128S", "SLH-DSA-SHA2-128S", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHA2_256F,
+                new Algorithm("SLH-DSA-SHA2-256F", "SLH-DSA-SHA2-256F", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHA2_256S,
+                new Algorithm("SLH-DSA-SHA2-256S", "SLH-DSA-SHA2-256S", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_128F,
+                new Algorithm("SLH-DSA-SHAKE-128F", "SLH-DSA-SHAKE-128F", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_128S,
+                new Algorithm("SLH-DSA-SHAKE-128S", "SLH-DSA-SHAKE-128S", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_256F,
+                new Algorithm("SLH-DSA-SHAKE-256F", "SLH-DSA-SHAKE-256F", "Signature")
+        );
+        algorithmsMap.put(
+                XMLSignature.ALGO_ID_SIGNATURE_SLH_DSA_SHAKE_256S,
+                new Algorithm("SLH-DSA-SHAKE-256S", "SLH-DSA-SHAKE-256S", "Signature")
         );
         algorithmsMap.put(
                 XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_44_ECDSA_P256_SHA256,
