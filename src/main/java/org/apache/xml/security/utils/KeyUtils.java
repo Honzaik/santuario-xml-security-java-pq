@@ -42,7 +42,6 @@ import java.util.Arrays;
  * A set of utility methods to handle keys.
  */
 public class KeyUtils {
-    private static final System.Logger LOG = System.getLogger(KeyUtils.class.getName());
 
     /**
      * Enumeration of Supported key algorithm types.
@@ -208,13 +207,9 @@ public class KeyUtils {
             PublicKey publicKey = parameterSpec.getAgreementPublicKey();
             PrivateKey privateKey = parameterSpec.getAgreementPrivateKey();
 
-            String algorithm = publicKey.getAlgorithm();
-            if ("EC".equalsIgnoreCase(algorithm)) {
-                LOG.log(Level.WARNING, "EC keys are detected for key agreement algorithm! " +
-                        "Cryptographic algorithm may not be secure, consider using a different algorithm (and keys).");
-            }
-            algorithm = algorithm + (algorithm.equalsIgnoreCase("EC") ? "DH" : "");
-            KeyAgreement keyAgreement = KeyAgreement.getInstance(algorithm);
+            String keyAlgorithm = publicKey.getAlgorithm();
+            String keyAgreementAlgorithm = keyAlgorithm + ("EC".equalsIgnoreCase(keyAlgorithm) ? "DH" : "");
+            KeyAgreement keyAgreement = KeyAgreement.getInstance(keyAgreementAlgorithm);
             keyAgreement.init(privateKey);
             keyAgreement.doPhase(publicKey, true);
             byte[] secret = keyAgreement.generateSecret();
