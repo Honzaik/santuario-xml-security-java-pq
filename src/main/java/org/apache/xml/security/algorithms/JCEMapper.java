@@ -295,12 +295,12 @@ public class JCEMapper {
                 new Algorithm("MLDSA44-ECDSA-P256-SHA256", "MLDSA44-ECDSA-P256-SHA256", "Signature")
         );
         algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_65_ECDSA_P384_SHA384,
-                new Algorithm("MLDSA65-ECDSA-P384-SHA384", "MLDSA65-ECDSA-P384-SHA384", "Signature")
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_65_ECDSA_P384_SHA512,
+                new Algorithm("MLDSA65-ECDSA-P384-SHA512", "MLDSA65-ECDSA-P384-SHA512", "Signature")
         );
         algorithmsMap.put(
-                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_87_ECDSA_P384_SHA384,
-                new Algorithm("MLDSA87-ECDSA-P384-SHA384", "MLDSA87-ECDSA-P384-SHA384", "Signature")
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_87_ECDSA_P384_SHA512,
+                new Algorithm("MLDSA87-ECDSA-P384-SHA512", "MLDSA87-ECDSA-P384-SHA512", "Signature")
         );
         algorithmsMap.put(
                 XMLSignature.ALGO_ID_SIGNATURE_HASH_ML_DSA_44_ECDSA_P256_SHA256,

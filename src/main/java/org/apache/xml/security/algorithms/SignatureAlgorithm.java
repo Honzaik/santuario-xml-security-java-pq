@@ -549,10 +549,10 @@ public class SignatureAlgorithm extends Algorithm {
                 XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_44_ECDSA_P256_SHA256, SignatureBaseComposite.SignatureMLDSA44ECDSAP256SHA256.class
         );
         algorithmHash.put(
-                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_65_ECDSA_P384_SHA384, SignatureBaseComposite.SignatureMLDSA65ECDSAP384SHA384.class
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_65_ECDSA_P384_SHA512, SignatureBaseComposite.SignatureMLDSA65ECDSAP384SHA512.class
         );
         algorithmHash.put(
-                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_87_ECDSA_P384_SHA384, SignatureBaseComposite.SignatureMLDSA87ECDSAP384SHA384.class
+                XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_87_ECDSA_P384_SHA512, SignatureBaseComposite.SignatureMLDSA87ECDSAP384SHA512.class
         );
         algorithmHash.put(
                 XMLSignature.ALGO_ID_SIGNATURE_HASH_ML_DSA_44_ECDSA_P256_SHA256, SignatureBaseComposite.SignatureHashMLDSA44ECDSAP256SHA256.class

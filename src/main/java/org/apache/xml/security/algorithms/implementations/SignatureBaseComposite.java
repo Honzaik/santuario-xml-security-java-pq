@@ -183,47 +183,47 @@ public abstract class SignatureBaseComposite extends SignatureAlgorithmSpi {
         }
     }
 
-    public static class SignatureMLDSA65ECDSAP384SHA384 extends SignatureBaseComposite
+    public static class SignatureMLDSA65ECDSAP384SHA512 extends SignatureBaseComposite
     {
         /**
          * Constructor MLDSA65ECDSAP384SHA512
          *
          * @throws XMLSignatureException
          */
-        public SignatureMLDSA65ECDSAP384SHA384() throws XMLSignatureException {
+        public SignatureMLDSA65ECDSAP384SHA512() throws XMLSignatureException {
             super();
         }
 
-        public SignatureMLDSA65ECDSAP384SHA384(Provider provider) throws XMLSignatureException {
+        public SignatureMLDSA65ECDSAP384SHA512(Provider provider) throws XMLSignatureException {
             super(provider);
         }
 
         /** {@inheritDoc} */
         @Override
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_65_ECDSA_P384_SHA384;
+            return XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_65_ECDSA_P384_SHA512;
         }
     }
 
-    public static class SignatureMLDSA87ECDSAP384SHA384 extends SignatureBaseComposite
+    public static class SignatureMLDSA87ECDSAP384SHA512 extends SignatureBaseComposite
     {
         /**
-         * Constructor MLDSA87ECDSAP384SHA384
+         * Constructor MLDSA87ECDSAP384SHA512
          *
          * @throws XMLSignatureException
          */
-        public SignatureMLDSA87ECDSAP384SHA384() throws XMLSignatureException {
+        public SignatureMLDSA87ECDSAP384SHA512() throws XMLSignatureException {
             super();
         }
 
-        public SignatureMLDSA87ECDSAP384SHA384(Provider provider) throws XMLSignatureException {
+        public SignatureMLDSA87ECDSAP384SHA512(Provider provider) throws XMLSignatureException {
             super(provider);
         }
 
         /** {@inheritDoc} */
         @Override
         public String engineGetURI() {
-            return XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_87_ECDSA_P384_SHA384;
+            return XMLSignature.ALGO_ID_SIGNATURE_ML_DSA_87_ECDSA_P384_SHA512;
         }
     }
 
